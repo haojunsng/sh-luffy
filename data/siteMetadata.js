@@ -3,7 +3,7 @@ const siteMetadata = {
   title: 'Hao Jun - Data Engineer',
   author: 'Hao Jun',
   headerTitle: 'HAO JUN',
-  description: "Sailing through data, tech, and running - one adventure at a time.",
+  description: 'Sailing through data, tech, and running - one adventure at a time.',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://snghaojun.com',

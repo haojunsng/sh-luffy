@@ -7,20 +7,21 @@
 /* Core theme configuration */
 @theme {
   /* Font families */
-  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+  --font-sans:
+    var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
   /* Colors */
   /* Green primary color palette */
   --color-primary-50: oklch(0.98 0.01 140);
   --color-primary-100: oklch(0.95 0.02 140);
-  --color-primary-200: oklch(0.90 0.04 140);
+  --color-primary-200: oklch(0.9 0.04 140);
   --color-primary-300: oklch(0.85 0.08 140);
   --color-primary-400: oklch(0.75 0.12 140);
   --color-primary-500: oklch(0.65 0.15 140);
   --color-primary-600: oklch(0.55 0.15 140);
   --color-primary-700: oklch(0.45 0.12 140);
-  --color-primary-800: oklch(0.35 0.10 140);
+  --color-primary-800: oklch(0.35 0.1 140);
   --color-primary-900: oklch(0.25 0.08 140);
   --color-primary-950: oklch(0.15 0.05 140);
 

@@ -95,6 +95,37 @@ module.exports = () => {
         use: ['@svgr/webpack'],
       })
 
+      // Disable webpack caching for Cloudflare Pages
+      config.cache = false
+      
+      // Optimize bundle size
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: false,
+            vendors: false,
+            // Create a vendor chunk for node_modules
+            vendor: {
+              name: 'vendor',
+              chunks: 'all',
+              test: /node_modules/,
+              priority: 20,
+            },
+            // Create a common chunk for shared code
+            common: {
+              name: 'common',
+              minChunks: 2,
+              chunks: 'all',
+              priority: 10,
+              reuseExistingChunk: true,
+              enforce: true,
+            },
+          },
+        },
+      }
+
       return config
     },
   })

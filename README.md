@@ -5,6 +5,7 @@ My personal blog and portfolio built with Next.js, React 19, and Tailwind CSS. H
 ## 📝 Blog Posts
 
 I write about:
+
 - Data engineering and pipeline design
 - Cloud infrastructure and DevOps
 - Personal projects and learnings
@@ -39,4 +40,4 @@ This site is built on top of the excellent [tailwind-nextjs-starter-blog](https:
 
 ---
 
-*Built with ❤️ using [Next.js](https://nextjs.org/) and [Tailwind CSS](https://tailwindcss.com/)*
+_Built with ❤️ using [Next.js](https://nextjs.org/) and [Tailwind CSS](https://tailwindcss.com/)_

@@ -16,22 +16,22 @@ export default function Home() {
         <div className="py-12">
           <div className="space-y-8">
             {/* Hero Section */}
-            <div className="text-center space-y-6">
+            <div className="space-y-6 text-center">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 Hi, I'm {siteMetadata.author}
               </h2>
-              
+
               {/* Call to Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+              <div className="flex flex-col items-center justify-center gap-4 pt-4 sm:flex-row">
                 <Link
                   href="/about"
-                  className="px-6 py-3 text-base font-medium text-white bg-primary-500 hover:bg-primary-600 dark:hover:bg-primary-400 rounded-lg transition-colors"
+                  className="bg-primary-500 hover:bg-primary-600 dark:hover:bg-primary-400 rounded-lg px-6 py-3 text-base font-medium text-white transition-colors"
                 >
                   About Me
                 </Link>
                 <Link
                   href="/projects"
-                  className="px-6 py-3 text-base font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 dark:text-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                  className="rounded-lg bg-gray-100 px-6 py-3 text-base font-medium text-gray-700 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
                 >
                   View Projects
                 </Link>
@@ -39,36 +39,36 @@ export default function Home() {
             </div>
 
             {/* Quick Links */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
+            <div className="grid grid-cols-1 gap-6 pt-8 md:grid-cols-3">
               <Link
                 href="/blog"
-                className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-primary-500 dark:hover:border-primary-400 transition-colors"
+                className="hover:border-primary-500 dark:hover:border-primary-400 rounded-lg border border-gray-200 p-6 transition-colors dark:border-gray-700"
               >
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
                   Blog
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
                   Read my thoughts on technology, development, and more.
                 </p>
               </Link>
-              
+
               <Link
                 href="/projects"
-                className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-primary-500 dark:hover:border-primary-400 transition-colors"
+                className="hover:border-primary-500 dark:hover:border-primary-400 rounded-lg border border-gray-200 p-6 transition-colors dark:border-gray-700"
               >
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
                   Projects
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
                   Explore the things I've built and worked on.
                 </p>
               </Link>
-              
+
               <Link
                 href="/about"
-                className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-primary-500 dark:hover:border-primary-400 transition-colors"
+                className="hover:border-primary-500 dark:hover:border-primary-400 rounded-lg border border-gray-200 p-6 transition-colors dark:border-gray-700"
               >
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
                   About
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">

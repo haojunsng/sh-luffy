@@ -15,16 +15,16 @@ export default function Projects() {
         </div>
         {/* GIF Section - width matches 2 cards */}
         <div className="py-8">
-        <div className="max-w-[1088px] mx-auto p-4" style={{ aspectRatio: '16/6' }}>
-          <img
-            src="/static/images/projects-hero.gif"
-            alt="Projects Animation"
-            className="w-full h-full object-cover rounded-lg"
-          />
+          <div className="mx-auto max-w-[1088px] p-4" style={{ aspectRatio: '16/6' }}>
+            <img
+              src="/static/images/projects-hero.gif"
+              alt="Projects Animation"
+              className="h-full w-full rounded-lg object-cover"
+            />
           </div>
         </div>
         <div className="py-8">
-          <div className="max-w-[1088px] mx-auto">
+          <div className="mx-auto max-w-[1088px]">
             <div className="flex flex-wrap">
               {projectsData.map((d) => (
                 <Card
