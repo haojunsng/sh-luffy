@@ -2,11 +2,11 @@
 const siteMetadata = {
   title: 'Hao Jun - Data Engineer',
   author: 'Hao Jun',
-  headerTitle: 'Hao Jun',
-  description: 'Personal Portfolio and Blog',
+  headerTitle: 'HAO JUN',
+  description: "Sailing through data, tech, and running - one adventure at a time.",
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://haojun.dev',
+  siteUrl: 'https://snghaojun.com',
   siteRepo: 'https://github.com/haojunsng/sh-luffy',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
