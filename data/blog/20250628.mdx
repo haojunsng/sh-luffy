@@ -1,0 +1,141 @@
+---
+title: 'Building Automation Bots: Poll Dispatcher & Bill Splitter with AWS EventBridge, API Gateway, Lambda, and Cloudflare Workers'
+date: '2025-06-28'
+summary: 'A deep dive into how I built two automation bots—one for dispatching Telegram polls using AWS EventBridge and Lambda, and another for splitting bills using Telegram, Cloudflare Workers, and AWS API Gateway.'
+draft: false
+---
+
+## Introduction
+
+As someone who loves automating repetitive tasks and experimenting with cloud-native architectures, I recently built two Telegram bots to solve real-world problems for my friends and myself:
+
+- **Poll Dispatcher Bot:** Automates sending out Telegram polls on a schedule.
+- **Bill Splitter Bot:** Makes splitting group expenses seamless and secure.
+
+Both bots leverage serverless technologies, but each has a unique architecture and set of technical challenges. Here’s how I built them, why I made certain choices, and what I learned along the way.
+
+---
+
+## Poll Dispatcher Bot: EventBridge → Lambda → Telegram
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/shaka.png"
+    alt="Shaka Diagram"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '60%', minWidth: '250px', maxWidth: '600px' }}
+  />
+</div>
+
+### **Motivation**
+
+I wanted a way to automatically send out recurring polls to a Telegram group (e.g., "Who's joining the run this weekend?") without manual intervention. The solution needed to be reliable, easy to update, and most importantly FOC.
+
+### **Architecture**
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/shaka-archi.png"
+    alt="Shaka Architecture Diagram"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '30%', minWidth: '250px', maxWidth: '600px' }}
+  />
+</div>
+
+1. **AWS EventBridge**
+   - Acts as a scheduler (cron) to trigger events at specific times (e.g., every Friday at 6pm).
+2. **AWS Lambda**
+   - Receives the EventBridge event, constructs the poll, and sends it to the Telegram Bot API.
+3. **Telegram Bot**
+   - Receives the poll and posts it in the group chat.
+
+**Why this setup?**
+
+- **EventBridge** is a native, serverless scheduler—no need for EC2 or external cron jobs.
+- **Lambda** is perfect for lightweight, event-driven tasks and scales to zero.
+- **No persistent infrastructure** - I only pay for what I use.
+
+### **Key Technical Details**
+
+- **Error Handling:**  
+  Lambda retries on failure, and errors are logged to CloudWatch for easy debugging.
+- **Extensibility:**  
+  Adding new poll types or schedules is as simple as updating the EventBridge rule or Lambda code.
+- **CICD:**
+  Any changes to lambda code will be automatically deployed as part of GitHub Actions Workflow to S3, followed by a `terraform apply` to update Lambda Function.
+
+---
+
+## Bill Splitter Bot: Telegram → Cloudflare Worker → AWS API Gateway → Lambda
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/lilith.gif"
+    alt="Lilith Diagram"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '40%', minWidth: '250px', maxWidth: '600px' }}
+  />
+</div>
+
+### **Motivation**
+
+Splitting bills in group chats can get messy. I wanted a bot that could help with common real-life scenarios, such as:
+
+- When different people pay for different shared items (e.g. at hawker centres like Chomp Chomp, Newton, or Bedok 85), and you want to settle up easily at the end.
+- When one person pays for the entire meal, but everyone orders different items — some shared, some not — and you need to fairly calculate how much each person owes the payer.
+
+### **Architecture**
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/lilith-archi.png"
+    alt="Lilith Architecture Diagram"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '70%', minWidth: '250px', maxWidth: '600px' }}
+  />
+</div>
+
+1. **Telegram Bot**
+   - Users interact with the bot via commands.
+2. **Webhook to Cloudflare Worker**
+   - Telegram sends updates to a Cloudflare Worker endpoint.
+3. **Cloudflare Worker (Reverse Proxy & Verifier)**
+   - Verifies the Telegram secret token.
+   - Forwards valid requests to a REST API endpoint (AWS API Gateway).
+4. **AWS API Gateway (with Resource Policy)**
+   - Only allows requests from Cloudflare IPs (extra security).
+5. **AWS Lambda**
+   - Processes the bill splitting logic and formats the reply.
+6. **Telegram Bot**
+   - Sends the reply back to the user/group.
+
+### **Key Technical Details**
+
+- **Security:**
+  - The Cloudflare Worker acts as a reverse proxy, verifying the Telegram secret token before forwarding.
+  - AWS API Gateway resource policy only allows whitelisted Cloudflare IPs, blocking direct access.
+- **Serverless & Cost-Effective:**
+  - Cloudflare Workers and Lambda both scale to zero and have generous free tiers.
+
+---
+
+## **Why This Architecture?**
+
+AWS has very generous limits before usage is billable - which is why you will realise most of the tools/services I have decided to use are from AWS.
+
+- **Security:**  
+  By chaining Cloudflare Worker and API Gateway with strict policies, I am able to minimize attack surface and prevent abuse.
+- **Maintainability:**  
+  Each component does one thing well and can be updated independently.
+- **Scalability:**  
+  Both bots can handle spikes in usage without any manual intervention.
+- **Fun Factor:**  
+  I got to play with both AWS and Cloudflare serverless stacks, and learned a ton about their quirks!
+
+---
+
+## **Conclusion**
+
+Compared to the containerised ELT data pipeline (that I will write about soon...) I worked on previously, building these bots has been a refreshing dive into serverless architecture, automation, and security. If you're interested in the code or want to build something similar, feel free to reach out or check out my [GitHub](https://github.com/haojunsng).
+
+Happy automating!
