@@ -2,7 +2,7 @@
 
 🌐 **Live Site:**
 
-[![Website](https://img.shields.io/badge/Website-snghaojun.com-green?style=for-the-badge&logo=vercel)](https://www.snghaojun.com)
+[![Website](https://img.shields.io/badge/Website-snghaojun.com-green?style=for-the-badge&logo=vercel)](https://snghaojun.com)
 
 My personal blog and portfolio built with Next.js, React 19, and Tailwind CSS. Here I share my thoughts on software engineering, data pipelines, and the technologies I work with.
 
