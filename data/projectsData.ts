@@ -22,13 +22,13 @@ const projectsData: Project[] = [
     title: 'sh-datrun-dp',
     description: `A serverless data pipeline that pulls data from DATRUN app's Firestore database for transformation, wrangling and analytics.`,
     imgSrc: '/static/images/projects/sh-datrun-dp.png',
-    href: 'https://github.com/haojunsng/sh-datrun-dp',
+    href: 'https://github.com/prosh2/sh-datrun-dp',
   },
   {
     title: 'sh-datrun-iac',
     description: `A repository dedicated to provisioning cloud infrastructure for DATRUN app.`,
     imgSrc: '/static/images/projects/sh-datrun-iac.png',
-    href: 'https://github.com/haojunsng/sh-datrun-iac',
+    href: 'https://github.com/prosh2/sh-datrun-iac',
   },
 ]
 

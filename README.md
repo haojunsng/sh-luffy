@@ -1,5 +1,9 @@
 # Hao Jun - Personal Blog & Portfolio
 
+🌐 **Live Site:**
+
+[![Website](https://img.shields.io/badge/Website-snghaojun.com-green?style=for-the-badge&logo=vercel)](https://www.snghaojun.com)
+
 My personal blog and portfolio built with Next.js, React 19, and Tailwind CSS. Here I share my thoughts on software engineering, data pipelines, and the technologies I work with.
 
 ## 📝 Blog Posts
@@ -10,25 +14,6 @@ I write about:
 - Cloud infrastructure and DevOps
 - Personal projects and learnings
 - Fitness Goals around Running/Cycling
-
-## 🛠️ Projects
-
-- **[sh-vegapunk](https://github.com/haojunsng/sh-vegapunk)**: Intelligent bots and automation tools
-- **[sh-thousand-sunny](https://github.com/haojunsng/sh-thousand-sunny)**: ELT pipeline for Strava and weather data
-- **[sh-datrun-dp](https://github.com/haojunsng/sh-datrun-dp)**: Serverless data pipeline for DATRUN app
-- **[sh-datrun-iac](https://github.com/haojunsng/sh-datrun-iac)**: Infrastructure as Code for DATRUN
-
-## 🏃‍♂️ About Me
-
-I'm passionate about building things on the internet. My current work includes developing automation tools, building data pipelines, and creating user-friendly applications. I'm particularly interested in cloud architecture, DevOps practices, and emerging technologies.
-
-When I'm not coding, you'll find me going on a run, a ride, and hopefully a swim soon...
-
-## 📧 Contact
-
-- **Email**: snghaojun18@gmail.com
-- **GitHub**: [@haojunsng](https://github.com/haojunsng)
-- **LinkedIn**: [Hao Jun](https://www.linkedin.com/snghaojun)
 
 ## 📄 License
 
