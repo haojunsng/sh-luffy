@@ -7,20 +7,28 @@ interface Project {
 
 const projectsData: Project[] = [
   {
-    title: 'A Search Engine',
-    description: `What if you could look up any information in the world? Webpages, images, videos
-    and more. Google has many features to help you find exactly what you're looking
-    for.`,
-    imgSrc: '/static/images/google.png',
-    href: 'https://www.google.com',
+    title: 'sh-vegapunk',
+    description: `A collection of intelligent bots and automation tools built on AWS with Terraform. Features include Telegram bots for bill splitting, poll dispatcher, and more.`,
+    imgSrc: '/static/images/projects/sh-vegapunk.png',
+    href: 'https://github.com/haojunsng/sh-vegapunk',
   },
   {
-    title: 'The Time Machine',
-    description: `Imagine being able to travel back in time or to the future. Simple turn the knob
-    to the desired date and press "Go". No more worrying about lost keys or
-    forgotten headphones with this simple yet affordable solution.`,
-    imgSrc: '/static/images/time-machine.jpg',
-    href: '/blog/the-time-machine',
+    title: 'sh-thousand-sunny',
+    description: `A containerised ELT pipeline that ingests data from the Strava API and the Open Meteo API, landing it in S3 and Postgres, with dbt for data modeling.`,
+    imgSrc: '/static/images/projects/sh-thousand-sunny.png',
+    href: 'https://github.com/haojunsng/sh-thousand-sunny',
+  },
+  {
+    title: 'sh-datrun-dp',
+    description: `A serverless data pipeline that pulls data from DATRUN app's Firestore database for transformation, wrangling and analytics.`,
+    imgSrc: '/static/images/projects/sh-datrun-dp.png',
+    href: 'https://github.com/haojunsng/sh-datrun-dp',
+  },
+  {
+    title: 'sh-datrun-iac',
+    description: `A repository dedicated to provisioning cloud infrastructure for DATRUN app.`,
+    imgSrc: '/static/images/projects/sh-datrun-iac.png',
+    href: 'https://github.com/haojunsng/sh-datrun-iac',
   },
 ]
 
