@@ -2,15 +2,6 @@
 
 My personal blog and portfolio built with Next.js, React 19, and Tailwind CSS. Here I share my thoughts on software engineering, data pipelines, and the technologies I work with.
 
-## 🚀 Features
-
-- **Modern Tech Stack**: Next.js 15, React 19, TypeScript, Tailwind CSS
-- **Blog Functionality**: MDX support for rich content
-- **Dark/Light Mode**: Automatic theme switching
-- **SEO Optimized**: Built-in metadata and Open Graph tags
-- **Responsive Design**: Works perfectly on all devices
-- **Fast Performance**: Optimized for speed and accessibility
-
 ## 📝 Blog Posts
 
 I write about:
