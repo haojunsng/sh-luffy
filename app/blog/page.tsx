@@ -1,33 +1,16 @@
-import ListLayout from '@/layouts/ListLayout'
-import { allBlogs } from 'contentlayer/generated'
-import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 import { genPageMetadata } from 'app/seo'
-
-const POSTS_PER_PAGE = 5
 
 export const metadata = genPageMetadata({ title: 'Blog' })
 
 const page = async () => {
-  const posts = allCoreContent(sortPosts(allBlogs))
-  const pageNumber = 1
-  const initialDisplayPosts = posts.slice(
-    POSTS_PER_PAGE * (pageNumber - 1),
-    POSTS_PER_PAGE * pageNumber
-  )
-  const pagination = {
-    currentPage: pageNumber,
-    totalPages: Math.ceil(posts.length / POSTS_PER_PAGE),
-  }
-
   return (
-    <>
-      <ListLayout
-        posts={posts}
-        initialDisplayPosts={initialDisplayPosts}
-        pagination={pagination}
-        title="All Posts"
-      />
-    </>
+    <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
+      <h1 className="mb-4 text-4xl font-bold text-gray-900 dark:text-gray-100">Blog</h1>
+      <p className="max-w-md text-lg text-gray-600 dark:text-gray-400">
+        No blog posts yet. Check back soon for updates on data engineering, tech, and running
+        adventures!
+      </p>
+    </div>
   )
 }
 
