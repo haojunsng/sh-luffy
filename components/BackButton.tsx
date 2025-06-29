@@ -19,7 +19,7 @@ export default function BackButton() {
   return (
     <motion.button
       onClick={handleBack}
-      className="fixed top-24 left-6 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white shadow-lg transition-shadow duration-200 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800"
+      className="fixed top-24 left-6 z-[60] flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white shadow-lg transition-shadow duration-200 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       initial={{ opacity: 0, x: -20 }}
