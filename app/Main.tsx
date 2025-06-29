@@ -20,22 +20,6 @@ export default function Home() {
               <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 Hi, I'm {siteMetadata.author}
               </h2>
-
-              {/* Call to Action Buttons */}
-              <div className="flex flex-col items-center justify-center gap-4 pt-4 sm:flex-row">
-                <Link
-                  href="/about"
-                  className="bg-primary-500 hover:bg-primary-600 dark:hover:bg-primary-400 rounded-lg px-6 py-3 text-base font-medium text-white transition-colors"
-                >
-                  About Me
-                </Link>
-                <Link
-                  href="/projects"
-                  className="rounded-lg bg-gray-100 px-6 py-3 text-base font-medium text-gray-700 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
-                >
-                  View Projects
-                </Link>
-              </div>
             </div>
 
             {/* Quick Links */}

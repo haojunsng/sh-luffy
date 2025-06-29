@@ -3,9 +3,12 @@ import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
 
 import { Space_Grotesk } from 'next/font/google'
-import Header from '@/components/Header'
+import ConditionalHeader from '@/components/ConditionalHeader'
 import SectionContainer from '@/components/SectionContainer'
 import Footer from '@/components/Footer'
+import AnimatedMain from '@/components/AnimatedMain'
+import BackButton from '@/components/BackButton'
+import WaveAnimation from '@/components/WaveAnimation'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
@@ -95,9 +98,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-white pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-950 dark:text-white">
         <ThemeProviders>
           <SectionContainer>
-            <Header />
-            <main className="mb-auto">{children}</main>
+            <ConditionalHeader />
+            <BackButton />
+            <AnimatedMain>{children}</AnimatedMain>
             <Footer />
+            <WaveAnimation />
           </SectionContainer>
         </ThemeProviders>
       </body>
