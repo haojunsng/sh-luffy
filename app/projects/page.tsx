@@ -1,5 +1,4 @@
-import projectsData from '@/data/projectsData'
-import Card from '@/components/Card'
+import GitHubProjects from '@/components/GitHubProjects'
 import { genPageMetadata } from 'app/seo'
 
 export const metadata = genPageMetadata({ title: 'Projects' })
@@ -23,21 +22,9 @@ export default function Projects() {
             />
           </div>
         </div>
-        <div className="py-8">
-          <div className="mx-auto max-w-[1088px]">
-            <div className="flex flex-wrap">
-              {projectsData.map((d) => (
-                <Card
-                  key={d.title}
-                  title={d.title}
-                  description={d.description}
-                  imgSrc={d.imgSrc}
-                  href={d.href}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+
+        {/* GitHub Projects - Dynamically Fetched */}
+        <GitHubProjects />
       </div>
     </>
   )

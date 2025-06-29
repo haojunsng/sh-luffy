@@ -22,7 +22,7 @@ const Header = ({ showNav = true }: HeaderProps) => {
             <img src="/static/images/logo.png" alt="Logo" className="h-8 w-8" />
           </div>
           {typeof siteMetadata.headerTitle === 'string' ? (
-            <div className="hidden h-6 text-2xl font-semibold sm:block">
+            <div className="header-title hidden h-6 text-2xl font-semibold sm:block">
               {siteMetadata.headerTitle}
             </div>
           ) : (

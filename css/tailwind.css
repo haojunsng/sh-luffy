@@ -8,8 +8,11 @@
 @theme {
   /* Font families */
   --font-sans:
-    var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+
+  --font-inter: var(--font-inter), 'Inter', sans-serif;
+  --font-pirata-one: var(--font-pirata-one), 'Pirata One', cursive;
 
   /* Colors */
   /* Green primary color palette */
@@ -173,4 +176,20 @@ input:-webkit-autofill:focus {
 .linkicon {
   display: inline-block;
   vertical-align: middle;
+}
+
+/* Pirata One font fallback */
+.font-pirata-one {
+  font-family: var(--font-pirata-one), 'Pirata One', cursive !important;
+}
+
+/* Default heading styles with Inter font */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.header-title {
+  font-family: var(--font-inter), 'Inter', sans-serif;
 }

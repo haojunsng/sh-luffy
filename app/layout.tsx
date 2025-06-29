@@ -2,21 +2,29 @@ import 'css/tailwind.css'
 import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
 
-import { Space_Grotesk } from 'next/font/google'
+import { Inter, Pirata_One } from 'next/font/google'
 import ConditionalHeader from '@/components/ConditionalHeader'
 import SectionContainer from '@/components/SectionContainer'
 import Footer from '@/components/Footer'
 import AnimatedMain from '@/components/AnimatedMain'
 import BackButton from '@/components/BackButton'
 import WaveAnimation from '@/components/WaveAnimation'
+import SplashScreen from '@/components/SplashScreen'
+import PageTransitionLoader from '@/components/PageTransitionLoader'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 
-const space_grotesk = Space_Grotesk({
+const inter = Inter({
   subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-space-grotesk',
+  weight: '400',
+  variable: '--font-inter',
+})
+
+const pirataOne = Pirata_One({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-pirata-one',
 })
 
 export const metadata: Metadata = {
@@ -65,7 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang={siteMetadata.language}
-      className={`${space_grotesk.variable} scroll-smooth`}
+      className={`${inter.variable} ${pirataOne.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <link
@@ -95,15 +103,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
-      <body className="bg-white pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-950 dark:text-white">
+      <body
+        className={`${inter.variable} ${pirataOne.variable} bg-white pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-950 dark:text-white`}
+      >
         <ThemeProviders>
-          <SectionContainer>
-            <ConditionalHeader />
-            <BackButton />
-            <AnimatedMain>{children}</AnimatedMain>
-            <Footer />
-            <WaveAnimation />
-          </SectionContainer>
+          <PageTransitionLoader />
+          <SplashScreen>
+            <SectionContainer>
+              <ConditionalHeader />
+              <BackButton />
+              <AnimatedMain>{children}</AnimatedMain>
+              <Footer />
+              <WaveAnimation />
+            </SectionContainer>
+          </SplashScreen>
         </ThemeProviders>
       </body>
     </html>

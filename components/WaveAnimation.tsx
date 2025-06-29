@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 export default function WaveAnimation() {
   return (
-    <div className="fixed right-0 bottom-0 left-0 z-30 h-48 w-full overflow-hidden bg-gradient-to-t from-blue-400 via-blue-300 to-blue-200">
+    <div className="fixed right-0 bottom-0 left-0 z-30 h-60 w-full overflow-hidden">
       {/* Multiple wave layers for depth */}
       <div className="absolute bottom-0 w-full">
         {/* Wave 1 - Deep */}
@@ -17,7 +17,7 @@ export default function WaveAnimation() {
           <motion.path
             d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
             opacity=".4"
-            fill="#3b82f6"
+            fill="#1e40af"
             animate={{
               d: [
                 'M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z',
@@ -41,8 +41,8 @@ export default function WaveAnimation() {
         >
           <motion.path
             d="M0,0V30c100,20,200,20,300,0s200-20,300,0,200,20,300,0,200-20,300,0V0Z"
-            opacity=".7"
-            fill="#60a5fa"
+            opacity=".6"
+            fill="#3b82f6"
             animate={{
               d: [
                 'M0,0V30c100,20,200,20,300,0s200-20,300,0,200,20,300,0,200-20,300,0V0Z',
@@ -59,7 +59,7 @@ export default function WaveAnimation() {
           />
         </svg>
 
-        {/* Wave 3 - Surface */}
+        {/* Wave 3 - Surface with natural wave top */}
         <svg
           className="absolute bottom-0 h-32 w-full"
           viewBox="0 0 1200 120"
@@ -67,8 +67,8 @@ export default function WaveAnimation() {
         >
           <motion.path
             d="M0,0V20c150,30,250,30,400,0s250-30,400,0,250,30,400,0V0Z"
-            opacity=".9"
-            fill="#93c5fd"
+            opacity=".8"
+            fill="#60a5fa"
             animate={{
               d: [
                 'M0,0V20c150,30,250,30,400,0s250-30,400,0,250,30,400,0V0Z',
@@ -88,7 +88,7 @@ export default function WaveAnimation() {
 
       {/* Thousand Sunny Ship - 3D Floating Animation */}
       <motion.div
-        className="absolute bottom-0 left-1/2 z-20 -translate-x-1/2 transform"
+        className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 transform"
         animate={{
           y: [0, -25, 0],
           x: [-400, 200, -400],

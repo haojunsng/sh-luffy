@@ -12,47 +12,48 @@ import {
   Transition,
 } from '@headlessui/react'
 
-const Sun = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 20 20"
-    fill="currentColor"
-    className="group:hover:text-gray-100 h-6 w-6"
-  >
-    <path
-      fillRule="evenodd"
-      d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-      clipRule="evenodd"
-    />
-  </svg>
-)
-const Moon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 20 20"
-    fill="currentColor"
-    className="group:hover:text-gray-100 h-6 w-6"
-  >
-    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-  </svg>
-)
-const Monitor = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 20 20"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="group:hover:text-gray-100 h-6 w-6"
-  >
-    <rect x="3" y="3" width="14" height="10" rx="2" ry="2"></rect>
-    <line x1="7" y1="17" x2="13" y2="17"></line>
-    <line x1="10" y1="13" x2="10" y2="17"></line>
-  </svg>
-)
-const Blank = () => <svg className="h-6 w-6" />
+const ChibiLuffy = ({ mode }: { mode: 'light' | 'dark' | 'system' }) => {
+  const getMessage = () => {
+    switch (mode) {
+      case 'light':
+        return 'Light Mode!'
+      case 'dark':
+        return 'Dark Mode!'
+      case 'system':
+        return 'Auto!'
+      default:
+        return 'Light Mode!'
+    }
+  }
+
+  return (
+    <div className="group relative">
+      {/* Speech Bubble */}
+      <div className="absolute -top-8 left-1/2 z-10 -translate-x-1/2 transform rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs font-medium whitespace-nowrap text-gray-700 opacity-0 transition-opacity duration-200 group-hover:opacity-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300">
+        {getMessage()}
+        {/* Speech bubble tail */}
+        <div className="absolute top-full left-1/2 h-0 w-0 -translate-x-1/2 transform border-t-4 border-r-4 border-l-4 border-transparent border-t-white dark:border-t-gray-800"></div>
+      </div>
+
+      {/* Chibi Luffy Image */}
+      <div className="relative h-15 w-15 transition-transform duration-200 group-hover:animate-bounce">
+        <img
+          src="/static/images/chibi-luffy.png"
+          alt="Chibi Luffy"
+          className="h-full w-full object-contain"
+          onError={(e) => {
+            // Fallback to CSS version if image fails to load
+            const target = e.target as HTMLImageElement
+            target.style.display = 'none'
+            target.nextElementSibling?.classList.remove('hidden')
+          }}
+        />
+      </div>
+    </div>
+  )
+}
+
+const Blank = () => <div className="h-8 w-8" />
 
 const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false)
@@ -65,8 +66,18 @@ const ThemeSwitch = () => {
     <div className="flex items-center">
       <Menu as="div" className="relative inline-block text-left">
         <div className="hover:text-primary-500 dark:hover:text-primary-400 flex items-center justify-center">
-          <MenuButton aria-label="Theme switcher">
-            {mounted ? resolvedTheme === 'dark' ? <Moon /> : <Sun /> : <Blank />}
+          <MenuButton
+            aria-label="Theme switcher"
+            className="group relative cursor-pointer rounded-lg p-1 transition-all duration-200"
+            title="Toggle theme (Light/Dark/System)"
+          >
+            {mounted ? (
+              <ChibiLuffy mode={resolvedTheme === 'dark' ? 'dark' : 'light'} />
+            ) : (
+              <Blank />
+            )}
+            {/* Subtle indicator */}
+            <div className="absolute -bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 transform rounded-full bg-gray-400 opacity-0 transition-opacity duration-200 group-hover:opacity-100 dark:bg-gray-500"></div>
           </MenuButton>
         </div>
         <Transition
@@ -87,9 +98,7 @@ const ThemeSwitch = () => {
                       <button
                         className={`${focus ? 'bg-primary-600 text-white' : ''} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                       >
-                        <div className="mr-2">
-                          <Sun />
-                        </div>
+                        <div className="mr-2 text-lg">☀️</div>
                         Light
                       </button>
                     )}
@@ -103,9 +112,7 @@ const ThemeSwitch = () => {
                           focus ? 'bg-primary-600 text-white' : ''
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                       >
-                        <div className="mr-2">
-                          <Moon />
-                        </div>
+                        <div className="mr-2 text-lg">🌙</div>
                         Dark
                       </button>
                     )}
@@ -119,9 +126,7 @@ const ThemeSwitch = () => {
                           focus ? 'bg-primary-600 text-white' : ''
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                       >
-                        <div className="mr-2">
-                          <Monitor />
-                        </div>
+                        <div className="mr-2 text-lg">⚙️</div>
                         System
                       </button>
                     )}

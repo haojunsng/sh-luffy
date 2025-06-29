@@ -1,5 +1,6 @@
 import Link from '@/components/Link'
 import siteMetadata from '@/data/siteMetadata'
+import SocialIcon from '@/components/social-icons'
 
 export default function Home() {
   return (
@@ -23,7 +24,7 @@ export default function Home() {
             </div>
 
             {/* Quick Links */}
-            <div className="grid grid-cols-1 gap-6 pt-8 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 pt-8 md:grid-cols-2 lg:grid-cols-4">
               <Link
                 href="/blog"
                 className="hover:border-primary-500 dark:hover:border-primary-400 rounded-lg border border-gray-200 p-6 transition-colors dark:border-gray-700"
@@ -59,6 +60,20 @@ export default function Home() {
                   Learn more about my background and experience.
                 </p>
               </Link>
+
+              <div className="rounded-lg border border-gray-200 p-6 dark:border-gray-700">
+                <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  Contact
+                </h3>
+                <p className="mb-4 text-gray-600 dark:text-gray-400">
+                  Let's connect and discuss opportunities.
+                </p>
+                <div className="flex space-x-4">
+                  <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={6} />
+                  <SocialIcon kind="github" href={siteMetadata.github} size={6} />
+                  <SocialIcon kind="linkedin" href={siteMetadata.linkedin} size={6} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
