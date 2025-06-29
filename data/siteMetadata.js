@@ -14,7 +14,6 @@ const siteMetadata = {
   github: 'https://github.com/haojunsng',
   linkedin: 'https://www.linkedin.com/in/snghaojun/',
   locale: 'en-SG',
-  // set to true if you want a navbar fixed to the top
   stickyNav: true,
 }
 

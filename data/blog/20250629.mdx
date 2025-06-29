@@ -1,0 +1,199 @@
+---
+title: 'Setting up a containerised ELT data pipeline using STRAVA API and open-meteo API.'
+date: '2025-06-29'
+summary: 'A comprehensive guide to building a data pipeline that combines Strava fitness data with weather information using modern cloud technologies.'
+draft: false
+---
+
+## Introduction
+
+In this post, I'll walk through my journey of building **Thousand Sunny** - a containerised ELT (Extract, Load, Transform) data pipeline that combines fitness data from Strava with weather information from Open-Meteo API. This project serves as both an exploration of modern data engineering practices and a practical solution for correlating my running performance with weather conditions.
+
+## Project Overview
+
+This repository contains 3 main parts - `strava/`, `weather/` and `iac/`. I chose to adopt a **monorepo approach** for this exploratory/hobby work to avoid the hassle of maintaining multiple repositories while keeping all related components in one place.
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/thousand-sunny-archi.png"
+    alt="Thousand Sunny Architecture Diagram"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '900px' }}
+  />
+</div>
+
+## Architecture Components
+
+### Strava Pipeline (`strava/`)
+
+A **batch ELT data pipeline** in Python, connecting to PostgreSQL database, orchestrated by Apache Airflow and dbt through ECS.
+
+**Key Components:**
+
+- **extract/**: Data extraction logic from Strava API
+- **load/**: Loading data from landing buckets to database
+- **transformation/**: Data transformation logic using dbt
+- **orchestration/**: Airflow DAGs and deployment configuration
+
+#### Extract Process
+
+The extraction process involves:
+
+1. **Credential Management**: Obtain and store Strava API credentials (`CLIENT_ID`, `CLIENT_SECRET`, `REFRESH_TOKEN`) in AWS SSM Parameter Store
+2. **Containerisation**: Dockerise the extract logic and push to ECR
+3. **CI/CD**: Automated deployment through GitHub Actions (`cd.yaml`)
+4. **Orchestration**: Custom `StravaToS3Operator` inheriting from `ECSRunTaskOperator`
+
+#### Load Process
+
+**Supabase** was chosen as the PostgreSQL database.
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/supabase.png"
+    alt="Supabase Diagram"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '900px' }}
+  />
+</div>
+
+Data flows from S3 landing buckets directly into Supabase tables.
+
+#### Transformation with dbt
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/dbt.png"
+    alt="dbt"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '900px' }}
+  />
+</div>
+
+**dbt (data build tool)** handles all data transformation work. I adopted a **monorepo approach** for dbt project management because there are dependencies between the Strava and weather dbt projects - keeping them in one place ensures proper dependency management.
+
+#### Orchestration with Airflow
+
+Apache Airflow manages the entire data pipeline orchestration:
+
+- **StravaToS3Operator**: Custom operator for Strava API extraction
+- **S3ToSupabaseOperator**: Custom operator for loading data to Supabase
+- **DbtOperator**: Triggers dbt transformation tasks through ECS
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/airflow.png"
+    alt="Airflow Diagram"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '900px' }}
+  />
+</div>
+
+All three processes (extraction, loading, transformation) are managed in their respective directories and deployed to AWS S3 bucket through GitHub Actions for MWAA cluster.
+
+### 🌤️ Weather Pipeline (`weather/`)
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/kafka_ui_live_messages.png"
+    alt="Kafka Diagram"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '900px' }}
+  />
+</div>
+
+A **real-time data pipeline** in Go utilising Kafka on Kubernetes, connecting to _Cassandra [WIP]_, with Terraform as the IaC.
+
+**Key Components:**
+
+- **Producer**: Go application consuming Open-Meteo API data
+- **Consumer**: Go application processing Kafka events and landing data in S3 and Cassandra
+
+The weather pipeline provides real-time weather data that can be correlated with fitness activities for deeper insights.
+
+### 🏗️ Infrastructure (`iac/`)
+
+**Terraform** manages all cloud infrastructure except SSM Parameters.
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/scalr_ui_1.png"
+    alt="Scalr Diagram 1"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '900px' }}
+  />
+</div>
+
+**Resources managed by Terraform:**
+
+- ECS Task Definitions and ECR repositories
+- CloudWatch Logs and S3 buckets
+- Networking (VPC, subnets, security groups)
+- IAM (service users, task execution roles, policies)
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/scalr_ui_2.png"
+    alt="Scalr Diagram 2"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '900px' }}
+  />
+</div>
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/scalr_ui_3.png"
+    alt="Scalr Diagram 3"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '900px' }}
+  />
+</div>
+
+**Scalr Integration:**
+
+- Remote Terraform operations with free tier (50 operations/month)
+- Automated `terraform plan` on PRs with changes in `iac/` directory
+- Manual approval required through Scalr UI (auto-apply disabled)
+
+## Development Environment
+
+### Environment Variables Management
+
+I use **direnv** with `.envrc` files for automatic environment variable loading when entering the project directory. For Terraform variables, I prefix them with `TF_VAR_` to ensure proper registration by `.tf` files.
+
+### Local Development
+
+The `dev/` directory contains:
+
+- Local Airflow development environment (symlinked to `orchestration/dags/`)
+- Docker Compose setup for spinning up local Airflow
+- Testing environment for DAGs before deployment
+
+## Security & Best Practices
+
+### Credential Management
+
+All confidential credentials (API keys, database passwords) are securely stored in **AWS SSM Parameter Store** and retrieved at runtime, passed securely into ECS containers.
+
+### CI/CD with OIDC
+
+GitHub Workflows with **OIDC authentication** automate the process of pushing/updating images to ECR, ensuring secure and automated deployments.
+
+## Key Learnings
+
+This project reinforced several important principles:
+
+1. **Containerisation**: Consistent environments across development and production
+2. **Infrastructure as Code**: Reproducible and version-controlled infrastructure
+3. **Security First**: Proper credential management and least-privilege access
+4. **Modern Data Stack**: Leveraging tools like dbt, Airflow, and cloud-native services
+5. **Decoupling Orchestration and Compute**: Separating Airflow (orchestration) from the actual data processing tasks (compute) allows for better scalability and resource management. The ECS tasks can be scaled independently based on workload demands, while Airflow focuses solely on workflow coordination
+
+## Conclusion
+
+The Thousand Sunny project demonstrates how modern data engineering tools can be combined to create robust, scalable data pipelines. By using containerisation, infrastructure as code, and cloud-native services, I was able to build a system that's both maintainable and extensible.
+
+The combination of Strava fitness data with weather information opens up interesting possibilities for analysing how environmental factors affect athletic performance - a perfect example of how data engineering can provide real-world insights.
+
+---
+
+_This project is named after the Thousand Sunny ship from One Piece, symbolising the journey of exploration and discovery in data engineering. Just like the Straw Hat Pirates' ship, this pipeline carries valuable cargo (data) across the digital seas! 🏴‍☠️_
