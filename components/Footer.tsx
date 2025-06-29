@@ -2,7 +2,7 @@ import siteMetadata from '@/data/siteMetadata'
 
 export default function Footer() {
   return (
-    <footer className="relative z-40">
+    <footer className="pb-60 relative z-40">
       <div className="mt-16 border-t border-gray-200 dark:border-gray-700">
         <div className="flex flex-col items-center py-8">
           {/* Main Footer Content */}
