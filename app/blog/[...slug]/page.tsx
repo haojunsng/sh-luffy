@@ -1,7 +1,7 @@
 import 'css/prism.css'
 import { allBlogs } from 'contentlayer/generated'
 import { notFound } from 'next/navigation'
-import PostLayout from '@/layouts/PostLayout'
+import Post from '@/components/Post'
 import { coreContent } from 'pliny/utils/contentlayer'
 import { MDXLayoutRenderer } from 'pliny/mdx-components'
 import { components } from '@/components/MDXComponents'
@@ -19,8 +19,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
   const mainContent = coreContent(post)
 
   return (
-    <PostLayout content={mainContent} authorDetails={[]} next={undefined} prev={undefined}>
+    <Post content={mainContent} authorDetails={[]} next={undefined} prev={undefined}>
       <MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc} />
-    </PostLayout>
+    </Post>
   )
 }

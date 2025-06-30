@@ -1,4 +1,4 @@
-import ListLayout from '@/layouts/ListLayout'
+import List from '@/components/List'
 import { allBlogs } from 'contentlayer/generated'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 import { genPageMetadata } from 'app/seo'
@@ -20,7 +20,7 @@ const page = async () => {
   }
 
   return (
-    <ListLayout
+    <List
       posts={posts}
       initialDisplayPosts={initialDisplayPosts}
       pagination={pagination}
