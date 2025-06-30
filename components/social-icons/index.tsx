@@ -4,7 +4,7 @@ const components = {
   mail: Mail,
   github: Github,
   facebook: Facebook,
-  linkedin: Linkedin
+  linkedin: Linkedin,
 }
 
 type SocialIconProps = {

@@ -6,6 +6,16 @@
 
 My personal blog and portfolio built with Next.js, React 19, and Tailwind CSS. Here I share my thoughts on software engineering, data pipelines, and the technologies I work with.
 
+## 🚀 Features
+
+- **Modern Tech Stack**: Next.js 15, React 19, Tailwind CSS 4
+- **One Piece Theme**: Custom animations and styling inspired by One Piece
+- **Blog System**: MDX-powered blog with syntax highlighting
+- **Dark/Light Mode**: Custom theme switcher with chibi Luffy
+- **Responsive Design**: Mobile-first approach with beautiful animations
+- **Wave Animation**: Custom floating Thousand Sunny ship animation
+- **GitHub Integration**: Dynamic project fetching from GitHub API
+
 ## 📝 Blog Posts
 
 I write about:
@@ -14,6 +24,15 @@ I write about:
 - Cloud infrastructure and DevOps
 - Personal projects and learnings
 - Fitness Goals around Running/Cycling
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Styling**: Tailwind CSS 4 with custom animations
+- **Content**: MDX with Contentlayer
+- **Animations**: Framer Motion
+- **Deployment**: Cloudflare Pages
+- **Theme**: Custom One Piece inspired design
 
 ## 📄 License
 
@@ -25,4 +44,4 @@ This site is built on top of the excellent [tailwind-nextjs-starter-blog](https:
 
 ---
 
-_Built with ❤️ using [Next.js](https://nextjs.org/) and [Tailwind CSS](https://tailwindcss.com/)_
+_Built with ❤️ and the spirit of adventure! 🏴‍☠️_
