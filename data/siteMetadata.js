@@ -9,7 +9,7 @@ const siteMetadata = {
   siteUrl: 'https://snghaojun.com',
   siteRepo: 'https://github.com/haojunsng/sh-luffy',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
-  socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
+  socialBanner: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   email: 'snghaojun18@gmail.com',
   github: 'https://github.com/haojunsng',
   linkedin: 'https://www.linkedin.com/in/snghaojun/',
