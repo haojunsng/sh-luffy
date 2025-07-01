@@ -33,8 +33,19 @@ module.exports = () => {
     },
     webpack: (config, options) => {
       config.module.rules.push({
-        test: /\.svg$/,
-        use: ['@svgr/webpack'],
+        test: /\.svg$/i,
+        issuer: /\.[jt]sx?$/,
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: {
+              prettier: false,
+              svgo: true,
+              svgoConfig: { plugins: [{ removeViewBox: false }] },
+              titleProp: true,
+            },
+          },
+        ],
       })
 
       // Disable webpack caching for Cloudflare Pages

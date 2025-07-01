@@ -14,6 +14,8 @@ import PageTransitionLoader from '@/components/PageTransitionLoader'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
+import { usePathname } from 'next/navigation'
+import LayoutContent from '@/components/LayoutContent'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -109,13 +111,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProviders>
           <PageTransitionLoader />
           <SplashScreen>
-            <SectionContainer>
-              <ConditionalHeader />
-              <BackButton />
-              <AnimatedMain>{children}</AnimatedMain>
-              <Footer />
-              <WaveAnimation />
-            </SectionContainer>
+            <LayoutContent>{children}</LayoutContent>
           </SplashScreen>
         </ThemeProviders>
       </body>

@@ -11,6 +11,7 @@ interface AnimatedMainProps {
 export default function AnimatedMain({ children }: AnimatedMainProps) {
   const pathname = usePathname()
   const [isLoading, setIsLoading] = useState(false)
+  const isHome = pathname === '/'
 
   useEffect(() => {
     setIsLoading(true)
@@ -20,7 +21,7 @@ export default function AnimatedMain({ children }: AnimatedMainProps) {
 
   return (
     <motion.main
-      className="mb-auto"
+      className={isHome ? 'h-full w-full' : ''}
       key={pathname}
       initial={{ opacity: 0, y: 20, scale: 0.98 }}
       animate={{
