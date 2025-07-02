@@ -38,10 +38,6 @@ I write about:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Credits
-
-This site is built on top of the excellent [tailwind-nextjs-starter-blog](https://github.com/timlrx/tailwind-nextjs-starter-blog) template by [timlrx](https://github.com/timlrx). Thank you for creating such a beautiful and feature-rich template!
-
 ---
 
-_Built with ❤️ and the spirit of adventure! 🏴‍☠️_
+_🏴‍☠️ Built with the spirit of adventure! 🏴‍☠️_
