@@ -1,3 +1,4 @@
+// Need to refactor this component along with MapNavLargeScreen - literally doing the same thing.
 import { DynaPuff } from 'next/font/google'
 import { useState, useEffect, useRef, Fragment } from 'react'
 import { useRouter } from 'next/navigation'
@@ -63,8 +64,8 @@ export default function MapNavMobile() {
   })
   const [activeZone, setActiveZone] = useState<(typeof zones)[0] | null>(null)
   const [gauge, setGauge] = useState(0)
-  const gaugeDuration = 1500 // ms
-  const gaugeInterval = 30 // ms
+  const gaugeDuration = 1000 // ms
+  const gaugeInterval = 20 // ms
   const router = useRouter()
   const gaugeRef = useRef<NodeJS.Timeout | null>(null)
   const MUGIWARA = 300

@@ -63,11 +63,11 @@ export default function MapNavLargeScreen() {
   })
   const [activeZone, setActiveZone] = useState<(typeof zones)[0] | null>(null)
   const [gauge, setGauge] = useState(0)
-  const gaugeDuration = 1500 // ms
-  const gaugeInterval = 30 // ms
+  const gaugeDuration = 1000 // ms
+  const gaugeInterval = 20 // ms
   const router = useRouter()
   const gaugeRef = useRef<NodeJS.Timeout | null>(null)
-  const MUGIWARA = 300
+  const MUGIWARA = 250
 
   useEffect(() => {
     function updateRects() {
