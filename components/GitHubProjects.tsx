@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from '@/components/Link'
 import Card from '@/components/Card'
 
 interface GitHubRepo {

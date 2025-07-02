@@ -45,7 +45,7 @@ const zones = [
   },
 ]
 
-export default function MapNav() {
+export default function MapNavLargeScreen() {
   const [avatarPos, setAvatarPos] = useState({ x: 300, y: 750 })
   const mapRef = useRef<HTMLImageElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -67,7 +67,7 @@ export default function MapNav() {
   const gaugeInterval = 30 // ms
   const router = useRouter()
   const gaugeRef = useRef<NodeJS.Timeout | null>(null)
-  const MUGIWARA = 200
+  const MUGIWARA = 300
 
   useEffect(() => {
     function updateRects() {
@@ -205,7 +205,6 @@ export default function MapNav() {
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             if (mapRef.current && containerRef.current) {
-              const imgRect = mapRef.current.getBoundingClientRect()
               const contRect = containerRef.current.getBoundingClientRect()
               const fakeEvent = {
                 clientX: contRect.left + contRect.width / 2,
