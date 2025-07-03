@@ -96,12 +96,10 @@ export default function MapNav(props: MapNavProps) {
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       setAvatarPos((pos) => {
-        if (e.key === 'ArrowRight')
-          return { ...pos, x: Math.min(pos.x + MOVE_STEP, props.svgWidth) }
-        if (e.key === 'ArrowLeft') return { ...pos, x: Math.max(pos.x - MOVE_STEP, 0) }
-        if (e.key === 'ArrowUp') return { ...pos, y: Math.max(pos.y - MOVE_STEP, 0) }
-        if (e.key === 'ArrowDown')
-          return { ...pos, y: Math.min(pos.y + MOVE_STEP, props.svgHeight) }
+        if (e.key === 'ArrowRight') return { ...pos, x: Math.min(pos.x + 20, props.svgWidth) }
+        if (e.key === 'ArrowLeft') return { ...pos, x: Math.max(pos.x - 20, 0) }
+        if (e.key === 'ArrowUp') return { ...pos, y: Math.max(pos.y - 20, 0) }
+        if (e.key === 'ArrowDown') return { ...pos, y: Math.min(pos.y + 20, props.svgHeight) }
         return pos
       })
     }
