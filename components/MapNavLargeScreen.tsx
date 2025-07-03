@@ -10,7 +10,7 @@ const dynaPuff = DynaPuff({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
 })
-const zones = [
+const ZONES = [
   {
     name: 'Hut',
     x: 830,
@@ -61,7 +61,7 @@ export default function MapNavLargeScreen() {
     width: SVG_WIDTH,
     height: SVG_HEIGHT,
   })
-  const [activeZone, setActiveZone] = useState<(typeof zones)[0] | null>(null)
+  const [activeZone, setActiveZone] = useState<(typeof ZONES)[0] | null>(null)
   const [gauge, setGauge] = useState(0)
   const gaugeDuration = 1000 // ms
   const gaugeInterval = 20 // ms
@@ -153,12 +153,12 @@ export default function MapNavLargeScreen() {
     })
   }
 
-  const isInZone = (zone: (typeof zones)[0], pos: typeof avatarPos) =>
+  const isInZone = (zone: (typeof ZONES)[0], pos: typeof avatarPos) =>
     Math.hypot(pos.x - zone.x, pos.y - zone.y) < zone.radius
 
   // Track which zone mugiwaraya is in
   useEffect(() => {
-    const found = zones.find((zone) => isInZone(zone, avatarPos)) || null
+    const found = ZONES.find((zone) => isInZone(zone, avatarPos)) || null
     setActiveZone(found)
   }, [avatarPos])
 
@@ -228,7 +228,7 @@ export default function MapNavLargeScreen() {
           style={{ pointerEvents: 'none' }}
         />
       </div>
-      {zones.map((zone) => {
+      {ZONES.map((zone) => {
         const avatarInZone = isInZone(zone, avatarPos)
         const { left, top, scale } = svgToScreen(zone.x, zone.y)
         return (

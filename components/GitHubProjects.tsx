@@ -17,6 +17,8 @@ interface GitHubRepo {
   fork: boolean
 }
 
+const EXCLUDED_PROJECTS = ['haojunsng']
+
 export default function GitHubProjects() {
   const [repos, setRepos] = useState<GitHubRepo[]>([])
   const [loading, setLoading] = useState(true)
@@ -37,7 +39,7 @@ export default function GitHubProjects() {
 
         // Filter out forks and sort by stars, then by update date
         const filteredRepos = data
-          .filter((repo) => !repo.fork)
+          .filter((repo) => !repo.fork && !EXCLUDED_PROJECTS.includes(repo.name))
           .sort(
             (a, b) =>
               b.stargazers_count - a.stargazers_count ||
@@ -60,9 +62,7 @@ export default function GitHubProjects() {
     return (
       <div className="py-8">
         <div className="mx-auto max-w-[1088px]">
-          <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-gray-100">
-            GitHub Projects
-          </h2>
+          <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-gray-100">Loading...</h2>
           <div className="flex flex-wrap gap-4">
             {[...Array(6)].map((_, i) => (
               <div
@@ -80,9 +80,7 @@ export default function GitHubProjects() {
     return (
       <div className="py-8">
         <div className="mx-auto max-w-[1088px]">
-          <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-gray-100">
-            GitHub Projects
-          </h2>
+          <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-gray-100">Yikes!</h2>
           <div className="py-8 text-center">
             <p className="text-gray-600 dark:text-gray-400">
               Unable to load GitHub projects. Please try again later.
@@ -97,7 +95,7 @@ export default function GitHubProjects() {
     <div className="py-8">
       <div className="mx-auto max-w-[1088px]">
         <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-gray-100">
-          GitHub Projects
+          A glimpse of what I've built so far on my voyage!
         </h2>
         <div className="flex flex-wrap">
           {repos.map((repo) => (
