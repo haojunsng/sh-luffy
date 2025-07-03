@@ -43,7 +43,7 @@ export default function MapNavLargeScreen() {
       zones={ZONES}
       avatarStartPos={{ x: 300, y: 750 }}
       mugiwara={250}
-      containerClassName="fixed relative inset-0 z-0 m-0 h-screen w-screen bg-white p-0 dark:bg-gray-950"
+      containerClassName="fixed inset-0 z-0 m-0 h-screen w-screen bg-[#5caec3] p-0 dark:bg-gray-950"
       innerDivClassName="absolute inset-0 h-full w-full"
       imageSrc="/static/images/one-piece.svg"
       imageAlt="One Piece Map"
