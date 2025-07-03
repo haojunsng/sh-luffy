@@ -194,7 +194,7 @@ export default function MapNavLargeScreen() {
   return (
     <div
       ref={containerRef}
-      className={'fixed relative inset-0 z-0 m-0 h-screen w-screen bg-white p-0 dark:bg-gray-950'}
+      className={'fixed inset-0 z-0 m-0 h-screen w-screen bg-[#5caec3] p-0 dark:bg-gray-950'}
       style={{ overflow: 'hidden' }}
     >
       <div
