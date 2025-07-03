@@ -308,9 +308,7 @@ export default function MapNavLargeScreen() {
               top: top - (MUGIWARA / 2) * scale,
             }}
             transition={{
-              type: 'spring',
-              stiffness: 100,
-              damping: 30,
+              type: 'tween',
             }}
           />
         )
