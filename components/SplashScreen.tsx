@@ -28,38 +28,6 @@ export default function SplashScreen({ children }: SplashScreenProps) {
             transition={{ duration: 0.8, ease: 'easeInOut' }}
             className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700"
           >
-            {/* Animated Background Waves */}
-            <div className="absolute inset-0 overflow-hidden">
-              {[...Array(3)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute bottom-0 left-0 w-full"
-                  initial={{ y: 100 }}
-                  animate={{ y: -20 }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    repeatType: 'reverse',
-                    delay: i * 0.5,
-                    ease: 'easeInOut',
-                  }}
-                >
-                  <svg
-                    viewBox="0 0 1200 120"
-                    className="h-32 w-full opacity-20"
-                    style={{ transform: `translateY(${i * 20}px)` }}
-                  >
-                    <path
-                      d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
-                      fill="currentColor"
-                      className="text-white"
-                    />
-                  </svg>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Main Content */}
             <div className="relative z-10 text-center">
               {/* Chibi Luffy Animation */}
               <motion.div
@@ -137,29 +105,6 @@ export default function SplashScreen({ children }: SplashScreenProps) {
                 "I'm gonna be King of the Pirates!"
               </motion.p>
             </div>
-
-            {/* Floating Elements */}
-            <motion.div
-              className="absolute top-10 right-10 text-white opacity-30"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              ⚓
-            </motion.div>
-            <motion.div
-              className="absolute top-20 left-10 text-white opacity-30"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
-            >
-              🗺️
-            </motion.div>
-            <motion.div
-              className="absolute right-20 bottom-20 text-white opacity-30"
-              animate={{ y: [0, -15, 0] }}
-              transition={{ duration: 3, repeat: Infinity, delay: 1 }}
-            >
-              🏴‍☠️
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
