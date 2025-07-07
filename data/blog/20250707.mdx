@@ -1,0 +1,73 @@
+---
+title: 'Deploying FastAPI on Render'
+date: '2025-07-07'
+summary: 'How I built and shipped a weather API (with all the bells and whistles) on Render.com, and why it was way easier than I expected.'
+draft: false
+---
+
+## Introduction
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/fastapi_1.jpg"
+    alt="fastapi 1"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '900px' }}
+  />
+</div>
+
+Finally set this one up... a weather API that calls from **multiple sources** (_oops there's only 2 now_) to answer the annoying question:
+
+<div style={{ textAlign: 'center' }}>
+  _"Can I go for a run at Serangoon Stadium without getting drenched?"_
+</div>
+
+The API takes in a town name in Singapore and spits out all the metrics you'd care about -
+
+1. Precipitation Probability
+2. Humidity
+3. Temperature
+
+This is primarily motivated by how irritating it can be to flip between x number of weather apps...
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/fastapi_2.jpg"
+    alt="fastapi 2"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '900px' }}
+  />
+</div>
+
+## Technical Overview
+
+- **FastAPI** for the web framework
+- **Uvicorn** as the ASGI server
+- **httpx** for async HTTP requests
+- **poetry** for package management
+- **Render.com** for hosting (_I'm a huge fan already but more on that in a sec_)
+- **Tomorrow.io** and **Google Maps Weather API** as my data sources (_Yup, just these 2 for now..._)
+
+Just send a GET request with the town name, and you'll get back a JSON with all the weather metrics you need to decide if you should proceed or bail on your friends.
+
+## API & Security Design
+
+- **X-API-KEY Authentication**: Only requests with the right header get through.
+- **IP Filtering**: Only allowlisted IPs can access the endpoint (_unless you're Edwin, in which case, bonjour and au revoir - he had previously tried to spam my API endpoint when I had prematurely/excitedly deployed it on my subdomain to test out Render_).
+- **Rate Limiting**: No spamming allowed. You get 10 requests a minute, and that's generous.
+- **Clean Logging**: No sensitive info in the logs, just enough to know what's going on.
+
+The last 3 listed are set up in the middleware.
+
+The IP filtering will only allow Cloudflare IPs to come through - much like the reverse proxy pattern that I did with `sh-vegapunk/lilith` telegram bot.
+Except that this time, I do intend for my cloudflare worker to also handle the responses - so it's not acting purely as a reverse proxy anymore. I'm not sure what the correct technical term here is - please let me know if you do.
+
+## Final Thoughts
+
+FastAPI's docs were honestly a joy to read (_and I don't say that about docs often_). The explanations and examples were very easy to follow. Obviously it was pythonic, so it was comfortable.
+Deploying on Render was also really smooth - same with Vercel/Cloudflare, just connect your Github repo to Render and it deploys from `main`. Being in the free tier, it unfortunately autoscales to zero, so I'm not wasting resources when the API isn't in use.
+That also means that the first API call would take a bit longer. Still not complaining nonetheless - they didn't ask me for my credit card details.
+
+---
+
+_Stay tuned to my next post where I'll likely walk through setting up a Telegram bot that calls this weather API!_

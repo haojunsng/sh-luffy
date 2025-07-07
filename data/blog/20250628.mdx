@@ -57,9 +57,9 @@ I wanted a way to automatically send out recurring polls to a Telegram group (e.
 
 ### **Key Technical Details**
 
-- **Error Handling:**  
+- **Error Handling:**
   Lambda retries on failure, and errors are logged to CloudWatch for easy debugging.
-- **Extensibility:**  
+- **Extensibility:**
   Adding new poll types or schedules is as simple as updating the EventBridge rule or Lambda code.
 - **CICD:**
   Any changes to lambda code will be automatically deployed as part of GitHub Actions Workflow to S3, followed by a `terraform apply` to update Lambda Function.
@@ -123,13 +123,13 @@ Splitting bills in group chats can get messy. I wanted a bot that could help wit
 
 AWS has very generous limits before usage is billable - which is why you will realise most of the tools/services I have decided to use are from AWS.
 
-- **Security:**  
+- **Security:**
   By chaining Cloudflare Worker and API Gateway with strict policies, I am able to minimize attack surface and prevent abuse.
-- **Maintainability:**  
+- **Maintainability:**
   Each component does one thing well and can be updated independently.
-- **Scalability:**  
+- **Scalability:**
   Both bots can handle spikes in usage without any manual intervention.
-- **Fun Factor:**  
+- **Fun Factor:**
   I got to play with both AWS and Cloudflare serverless stacks, and learned a ton about their quirks!
 
 ---
@@ -139,5 +139,3 @@ AWS has very generous limits before usage is billable - which is why you will re
 Compared to the containerised ELT data pipeline (that I will write about soon...) I worked on previously, building these bots has been a refreshing dive into serverless architecture, automation, and security. If you're interested in the code or want to build something similar, feel free to reach out or check out my [GitHub](https://github.com/haojunsng).
 
 Happy automating!
-
----
