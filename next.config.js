@@ -4,7 +4,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
-const output = 'export'
 const basePath = process.env.BASE_PATH || undefined
 const unoptimized = true
 
@@ -14,7 +13,6 @@ const unoptimized = true
 module.exports = () => {
   const plugins = [withContentlayer, withBundleAnalyzer]
   return plugins.reduce((acc, next) => next(acc), {
-    output,
     basePath,
     reactStrictMode: true,
     trailingSlash: false,
