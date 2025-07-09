@@ -1,33 +1,36 @@
 ---
 title: 'Building my personal portfolio website using Next.js'
 date: '2025-07-02'
-summary: 'Follow me as I yap about how easy and difficult the process was to set this website up.'
+summary: 'How I wrangled Next.js, CSS headaches, and Cloudflare Pages to finally ship my first personal site.'
 draft: false
 ---
 
 ## **Introduction & Motivation**
 
-I want to share my experience building this website using `Next.js` - which is something I have wanted to do since my days in ExpressVPN in 2022. Like most other personal projects, this one eventually got shelved so hard that I had completely forgotten about it. Alas! I finally got to it in 2025.
+I finally got to building my first personal portfolio website with `Next.js` and hosted on `Cloudflare Pages`.
 
-I've always had a soft spot for typing, writing, just letting my thoughts spill out (_my friends do call me a yapper..._). Honestly, I think I was at my most coherent back in JC, when GP forced us to write essay after essay. There's something about being made to structure your arguments and wrangle your ideas into words that just makes your brain work better. It's almost like therapy, but with more hand cramps and an enlarged "tumour" on my middle finger (**shoutout to all-time goated pilot G2 0.5**).
+Edwin endorsed `Next.js` - it was modern, flexible, and with enough documentation.
 
-I also love the idea of having a one-stop shop for everything I've built, and everything about me (as narcissistic as that sounds). What better way to do that than to build my own website? Unfortunately, when I was knee-deep in learning data engineering back in 2022, there was just no way I could carve out the time or focus to start a site from scratch. It's not a speedrun-able side quest.
+Why `Cloudflare Pages`? Because my site is static (for now), and I wanted something fast, free, and dead simple to deploy. Also, I’m a sucker for a seamless developer experiences, and Cloudflare’s “just push to main” workflow is _chef’s kiss_. (_I also like that they have a preview environment on PR branches, unlike `Render`..._)
 
-## **So... was it difficult?**
+If I ever need to add dynamic features, I can always migrate over to Cloudflare Workers or move to a more full-featured host. But for now, Pages is more than enough.
 
-AI has honestly changed the game. Not so much because it spits out perfect code (spoiler: it doesn't), but because it's akin to having a super patient, super knowledgeable teacher on call 24/7.
+## **Technical Challenges**
 
-The real magic is how it helps you put structure to the things you don't even know you don't know. You start with a vague idea, and it helps you map out the unknowns, gives you a checklist, and suddenly learning a new framework doesn't feel like I'm wandering in the dark. It's really not about getting the answer — it's about getting a path forward. So there's always going to be a next step you can take.
+- **CSS & Styling**: I thought Tailwind would save me from CSS hell. Actually, it mostly did. But then came the SVGs, the mobile breakpoints, figuring out how to calculate offsets and how much to scale... thinking back - I'm glad I chose to specialise in DE.
 
-## **Was it easy then?**
+- **Image Optimization**: Next.js’s `<Image />` component is great, but figuring out how to make images look the way they should on all devices took way too much time and energy out of me.
 
-Of course, it's still not easy. Bugs still pop up, errors still need to be debugged, and even with AI's structure, you have to put in the work to actually understand what's going on. Just off the top of my head now, figuring out when to use `useRef` / `useState`, or what all the other hooks do, is still on you.
+- **Build & Deploy**: This wasn't something foreign - and Cloudflare Pages made deployment really easy too. From deploying to production to setting a custom domain, it was really seamless.
 
-The most memorable (and painful) lesson for me was trying to wrap my head around what happens when a supposedly full-size image gets shrunk from a massive monitor down to a tiny phone screen. Suddenly, you're dealing with containers, viewports, svg coordinates, scaling, offsets and what have you. It was a headache, but also kind of fun in a masochistic way.
+## **What I Learned**
 
-## **Reflection**
+- **Modern frameworks are powerful, but you still need to read the docs.** Next.js is awesome, but it’s not magic. Understanding the basics (routing, data fetching, static vs. dynamic) is key, and _good old junior dev (AI)_ really helped me structure the unknowns and provided me with concise and easily understandable explanations.
+- **CSS is still the final boss.** Tailwind helps, but even now I still find it a struggle to make it work on my first few tries. I guess this is something that comes with more practice.
+- **Cloudflare Pages is great for static sites.** The developer experience is smooth, and the free tier is generous. (_No credit card details required!_)
 
-I genuinely enjoyed this whole process (_not that it's done though_) because of how much I learned along the way. What started as a simple goal of building a personal website quickly turned into a crash course in frontend styling, SVG positioning, mobile responsiveness, build pipelines, deployment quirks, and the occasional existential CSS bug.
+## **Final Thoughts**
 
-If anything, it’s proof that AI really does **_sUpEeRcHaarRGeE_** learning. I didn’t follow a structured course or sit through hours of tutorials (_I did watch 6 to 8 youtube videos though_), but instead asked targeted questions when I got stuck, got just enough context to move forward, and learned by building.
-I’m also not here to argue whether AI will replace engineers. That question feels increasingly beside the point. What I’m convinced of is that it has permanently changed how we learn, problem-solve, and build. Not by doing everything for us, but by giving us a kind of thinking partner — one that doesn't get tired, doesn't judge, and has read way more documentation than I ever will.
+Building this site was equal parts fun, frustrating, and rewarding. I learned a ton, shipped something I’m happy with, and now have a home for all my projects and writing.
+
+Stay tuned for more posts as I continue to grow my collection of personal projects!
