@@ -1,7 +1,11 @@
 import type { NextRequest } from 'next/server'
 
+interface SubscribeRequestBody {
+  email: string
+}
+
 export async function POST(req: NextRequest) {
-  const { email } = await req.json()
+  const { email } = (await req.json()) as SubscribeRequestBody
 
   const WORKER_SECRET_TOKEN = process.env.WORKER_SECRET_TOKEN
   if (!WORKER_SECRET_TOKEN) {

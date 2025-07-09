@@ -3,6 +3,10 @@ export interface Env {
   WORKER_SECRET_TOKEN: string
 }
 
+interface SubscribeRequestBody {
+  email?: string
+}
+
 export default {
   async fetch(request: Request, env: Env, c: ExecutionContext): Promise<Response> {
     const AUTH_TOKEN = env.WORKER_SECRET_TOKEN
@@ -16,10 +20,10 @@ export default {
       return new Response('Method not allowed', { status: 405 })
     }
 
-    let email: string
+    let email
     try {
-      const body = await request.json()
-      email = body.email?.trim()
+      const body = (await request.json()) as { email?: string }
+      const email = body.email?.trim()
       if (!email) {
         return new Response('Email is required', { status: 400 })
       }

@@ -2,6 +2,11 @@
 
 import { useState } from 'react'
 
+interface SubscribeResponse {
+  message?: string
+  [key: string]: unknown
+}
+
 const SubscriptionForm = () => {
   const [email, setEmail] = useState('')
 
@@ -14,7 +19,7 @@ const SubscriptionForm = () => {
       body: JSON.stringify({ email }),
     })
 
-    const data = await res.json()
+    const data: SubscribeResponse = await res.json()
 
     if (res.ok) {
       alert(data.message || "You're subscribed!")
