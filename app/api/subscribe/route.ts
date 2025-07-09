@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
 
   const WORKER_SECRET_TOKEN = process.env.WORKER_SECRET_TOKEN
   if (!WORKER_SECRET_TOKEN) {
-    return new Response('Missing secret token', { status: 500 })
+    return NextResponse.json({ error: 'Missing secret token' }, { status: 500 })
   }
 
   const workerResponse = await fetch(
