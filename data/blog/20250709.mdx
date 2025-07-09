@@ -16,7 +16,7 @@ draft: false
   />
 </div>
 
-In this post, I'll be talking about Edison - the latest satellite implemented!
+In this post, I'll be introducing **Edison** - the latest satellite in my growing collection of personal projects.
 
 As it turns out, Edison has been taking secret lessons with Nami and now he is capable of churning out weather metrics! Here's how it works:
 
@@ -36,11 +36,12 @@ It's still pretty basic so far - Edison will be looking to upskill and acquire p
 </div>
 
 I built **Edison**, my personal Telegram weather bot, because every time before heading out for a run - whether it’s at Serangoon Stadium or around the CBD area - I found myself constantly checking multiple weather apps.
-Living in Singapore, where it can rain suddenly and unpredictably, this became quite a hassle.
+Living in Singapore, where rain can strike suddenly and without warning, this quickly became a hassle.
 
-So I thought: Why not _build an API_ that aggregates multiple weather sources into a single, convenient response? Essentially, Edison is an aggregator (or amalgamator - my colleagues' favourite word) that wraps around several weather APIs.
+So I thought: Why not _build an API_ that aggregates multiple weather sources into a single, convenient response?
+Essentially, Edison is an aggregator (or amalgamator - as my colleagues like to say) that consolidates multiple weather APIs into one response.
 By hooking it up to a Telegram webhook, I made the whole experience effortless - because honestly, everyone is on Telegram. It’s quick to access, always within reach, and I can easily forward the weather update to friends I’m running with.
-No more toggling between apps or guessing whether I should bring a cap.
+No more toggling between apps or guessing whether I should bring an umbrella.
 
 ## Technical Architecture & Security Features
 
@@ -67,11 +68,11 @@ Additionally:
 
 - I also implemented a rate limiter in the API middleware to restrict requests to 10 per minute—this prevents spam or abuse, even though it’s mostly just for me and my friends.
 
-I deliberately chose not to use AWS Lambda + API Gateway (which I used for my other satellite bot, Lilith) because I wanted to:
+I deliberately chose not to use AWS Lambda and API Gateway (which I used for my other satellite bot, Lilith) because I wanted to:
 
-- Experiment with different hosting models to broaden my exposure beyond serverless.
+- Experiment with different hosting models and broaden my exposure beyond serverless.
 
-- Simplify deployment and architecture. (_At the cost of having my API scaling to zero after 15 mins of inactivity..._)
+- Simplify deployment and architecture. (_At the cost of having my API scaling to zero after 15 mins of inactivity though..._)
 
 ## Gotchas I encountered
 
@@ -100,7 +101,7 @@ Simply put:
 
 ## Final Thoughts
 
-Once again, this project reminded me that I almost never anticipate the lessons I’m about to learn when starting something new.
+Once again, this project reminded me that I rarely anticipate the lessons I’ll end up learning when I start something new.
 Even though I was working with familiar tools and stacks (Cloudflare, Telegram), the context and constraints were different enough to surface new challenges and learnings.
 
 By writing this down, I hope I’ll be able to remember these lessons better—because I have a habit of forgetting the details over time.
