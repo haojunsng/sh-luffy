@@ -3,10 +3,6 @@ export interface Env {
   WORKER_SECRET_TOKEN: string
 }
 
-interface SubscribeRequestBody {
-  email?: string
-}
-
 export default {
   async fetch(request: Request, env: Env, c: ExecutionContext): Promise<Response> {
     const AUTH_TOKEN = env.WORKER_SECRET_TOKEN
