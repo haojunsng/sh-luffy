@@ -1,0 +1,107 @@
+---
+title: 'New Vegapunk Satellite - Edison, the Weather Bot!'
+date: '2025-07-09'
+summary: 'Edison has been taking lessons from Nami?!'
+draft: false
+---
+
+## Introduction
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/edison.jpg"
+    alt="Edison Architecture Diagram"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '50%', minWidth: '250px', maxWidth: '600px' }}
+  />
+</div>
+
+In this post, I'll be introducing **Edison** - the latest satellite in my growing collection of personal projects.
+
+As it turns out, Edison has been taking secret lessons with Nami and now he is capable of churning out weather metrics! Here's how it works:
+
+You send Edison a place/location/town in Singapore -> Edison returns you with weather metrics pulled from multiple renowned weather APIs.
+
+It's still pretty basic so far - Edison will be looking to upskill and acquire predictive/forecasting abilities soon!
+
+## Motivation
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/edison-demo.gif"
+    alt="Edison Demo"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '40%', minWidth: '250px', maxWidth: '600px' }}
+  />
+</div>
+
+I built **Edison**, my personal Telegram weather bot, because every time before heading out for a run - whether it’s at Serangoon Stadium or around the CBD area - I found myself constantly checking multiple weather apps.
+Living in Singapore, where rain can strike suddenly and without warning, this quickly became a hassle.
+
+So I thought: Why not _build an API_ that aggregates multiple weather sources into a single, convenient response?
+Essentially, Edison is an aggregator (or amalgamator - as my colleagues like to say) that consolidates multiple weather APIs into one response.
+By hooking it up to a Telegram webhook, I made the whole experience effortless - because honestly, everyone is on Telegram. It’s quick to access, always within reach, and I can easily forward the weather update to friends I’m running with.
+No more toggling between apps or guessing whether I should bring an umbrella.
+
+## Technical Architecture & Security Features
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/edison_archi.png"
+    alt="Edison Archi Diagram"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '70%', minWidth: '250px', maxWidth: '600px' }}
+  />
+</div>
+
+- The Telegram webhook triggers the flow whenever I send a message to the bot.
+
+- The Cloudflare Worker acts both as a:
+  - Reverse Proxy: Hides the actual FastAPI endpoint from direct exposure.
+  - Request Adapter: Verifies the incoming Telegram secret token, formats the outgoing message, and handles some pre-processing.
+
+- The FastAPI backend lives behind a Cloudflare IP allowlist, meaning only requests coming through Cloudflare can reach it. This ensures the API is private and secured for my use only.
+
+Additionally:
+
+- The Cloudflare Worker attaches a secret API key to authenticate with the FastAPI server.
+
+- I also implemented a rate limiter in the API middleware to restrict requests to 10 per minute—this prevents spam or abuse, even though it’s mostly just for me and my friends.
+
+I deliberately chose not to use AWS Lambda and API Gateway (which I used for my other satellite bot, Lilith) because I wanted to:
+
+- Experiment with different hosting models and broaden my exposure beyond serverless.
+
+- Simplify deployment and architecture. (_At the cost of having my API scaling to zero after 15 mins of inactivity though..._)
+
+## Gotchas I encountered
+
+1. IP Whitelisting (IPv4 vs IPv6)
+
+One tricky issue I hit was around IP whitelisting. With Lilith (hosted on AWS API Gateway), I used resource policies to whitelist only Cloudflare’s IPv4 address ranges, since I had set up the API Gateway in IPv4-only mode (_instead of dual-stack_).
+
+However, with Edison, since I’m hosting the API on Render, which supports both IPv4 and IPv6, I realised that:
+
+- Cloudflare Workers can originate from IPv6 addresses.
+
+- My whitelisting had to include both IPv4 and IPv6 CIDRs. (_I used Python’s built-in ipaddress library to handle this validation dynamically._)
+
+It was a good reminder that not all clouds behave the same way when it comes to networking, and dual-stack handling is something I’ll need to be mindful of in future projects.
+
+2. Misunderstanding CORS (Cross-Origin Resource Sharing)
+
+Another misconception I had was around CORS. I initially thought that CORS was a mechanism to filter incoming requests by IP address — but that’s not what CORS is for at all.
+
+CORS is a **browser-enforced security policy** that controls whether a webpage running JS is allowed to access the response from an API hosted on a different origin.
+It’s designed to protect users from malicious cross-site requests in the browser, not to control who can access your API at the network level.
+
+Simply put:
+
+- If you call the same API using `curl` or Postman or some backend service, CORS is not relevant.
+
+## Final Thoughts
+
+Once again, this project reminded me that I rarely anticipate the lessons I’ll end up learning when I start something new.
+Even though I was working with familiar tools and stacks (Cloudflare, Telegram), the context and constraints were different enough to surface new challenges and learnings.
+
+By writing this down, I hope I’ll be able to remember these lessons better—because I have a habit of forgetting the details over time.
