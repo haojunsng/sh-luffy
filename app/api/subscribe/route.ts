@@ -1,4 +1,4 @@
-import type { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 interface SubscribeRequestBody {
   email: string
@@ -25,5 +25,5 @@ export async function POST(req: NextRequest) {
   )
 
   const data = await workerResponse.json()
-  return new Response(JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } })
+  return NextResponse.json(data)
 }
