@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "vercel-build": "next build",
     "custom-build": "next build",
     "postcustom-build": "next-on-pages",
     "start": "next dev",
