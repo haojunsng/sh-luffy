@@ -1,6 +1,7 @@
 export const runtime = 'edge'
 
 import { Resend } from 'resend'
+import { getRequestContext } from '@cloudflare/next-on-pages'
 import { NextRequest, NextResponse } from 'next/server'
 
 interface EmailRequestBody {
@@ -13,7 +14,8 @@ interface Env {
   SUBSCRIPTION_EMAILS: KVNamespace
 }
 
-export async function POST(req: NextRequest, { env }: { env: Env }) {
+export async function POST(req: NextRequest) {
+  const env = getRequestContext().env as Env
   const { fileName, summary, title } = (await req.json()) as EmailRequestBody
   const blogUrl = `https://snghaojun.com/blog/${fileName}`
 
