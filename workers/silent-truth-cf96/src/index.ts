@@ -16,10 +16,11 @@ export default {
       return new Response('Method not allowed', { status: 405 })
     }
 
-    let email
+    let email: string | undefined
+
     try {
       const body = (await request.json()) as { email?: string }
-      const email = body.email?.trim()
+      email = body.email?.trim()
       if (!email) {
         return new Response('Email is required', { status: 400 })
       }
@@ -27,19 +28,20 @@ export default {
       return new Response('Invalid JSON body', { status: 400 })
     }
 
-    const key = `subscriber:${email}`
-    const existing = await env.SUBSCRIPTION_EMAILS.get(key)
-    if (existing) {
+    const listKey = 'subscribers:list'
+    const listRaw = await env.SUBSCRIPTION_EMAILS.get(listKey)
+    const emails: string[] = listRaw ? JSON.parse(listRaw) : []
+
+    if (emails.includes(email)) {
       return new Response(JSON.stringify({ message: "You're already subscribed!" }), {
         headers: { 'Content-Type': 'application/json' },
         status: 409,
       })
     }
 
-    await env.SUBSCRIPTION_EMAILS.put(
-      key,
-      JSON.stringify({ email, subscribedAt: new Date().toISOString() })
-    )
+    emails.push(email)
+
+    await env.SUBSCRIPTION_EMAILS.put(listKey, JSON.stringify(emails))
 
     return new Response(JSON.stringify({ message: 'Successfully subscribed!', email }), {
       headers: { 'Content-Type': 'application/json' },

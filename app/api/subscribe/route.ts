@@ -14,17 +14,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Missing secret token' }, { status: 500 })
   }
 
-  const workerResponse = await fetch(
-    'https://silent-truth-cf96.snghaojun18.workers.dev/subscribe',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${WORKER_SECRET_TOKEN}`,
-      },
-      body: JSON.stringify({ email }),
-    }
-  )
+  const WORKER_API_URL = process.env.WORKER_API_URL
+  if (!WORKER_API_URL) {
+    return NextResponse.json({ error: 'Missing api url' }, { status: 500 })
+  }
+  const workerResponse = await fetch(WORKER_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${WORKER_SECRET_TOKEN}`,
+    },
+    body: JSON.stringify({ email }),
+  })
 
   const data = await workerResponse.json()
   return NextResponse.json(data)
