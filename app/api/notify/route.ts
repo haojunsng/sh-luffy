@@ -15,6 +15,13 @@ interface Env {
 }
 
 export async function POST(req: NextRequest) {
+  const authHeader = req.headers.get('Authorization')
+  const secret = process.env.NOTIFY_API_TOKEN
+
+  if (!authHeader || authHeader !== `Bearer ${secret}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const env = getRequestContext().env as Env
   const { fileName, summary, title } = (await req.json()) as EmailRequestBody
   const blogUrl = `https://snghaojun.com/blog/${fileName}`
