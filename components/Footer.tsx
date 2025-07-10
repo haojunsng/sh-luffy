@@ -1,10 +1,15 @@
 import siteMetadata from '@/data/siteMetadata'
+import SubscriptionForm from '@/components/SubscriptionForm'
 
 export default function Footer() {
   return (
     <footer className="relative z-40 pb-60">
       <div className="mt-16 border-t border-gray-200 dark:border-gray-700">
-        <div className="flex flex-col items-center py-8">
+        <div className="flex flex-col items-center space-y-6 py-8">
+          {/* Subscription Form */}
+          <div className="w-full max-w-xs">
+            <SubscriptionForm />
+          </div>
           {/* Main Footer Content */}
           <div className="mb-4 text-center">
             <p className="text-sm text-gray-600 dark:text-gray-400">
