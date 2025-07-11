@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      NOTIFY_API_URL: https://snghaojun.com/api/notify
+      NOTIFY_API_URL: ${{ secrets.NOTIFY_API_URL }}
       NOTIFY_API_TOKEN: ${{ secrets.NOTIFY_API_TOKEN }}
 
     steps:
