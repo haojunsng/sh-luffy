@@ -1,0 +1,53 @@
+name: Notify on New Blog Post
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'sh-luffy/data/blog/*.mdx'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    env:
+      NOTIFY_API_URL: https://snghaojun.com/api/notify
+      NOTIFY_API_TOKEN: ${{ secrets.NOTIFY_API_TOKEN }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Get Added Blog Filename
+        id: get_file
+        run: |
+          FILE=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^sh-luffy/data/blog/.*\.mdx$' | head -n 1)
+          echo "filename=${FILE}" >> $GITHUB_OUTPUT
+
+      - name: Read Frontmatter from Blog Post
+        id: read_frontmatter
+        run: |
+          FILENAME=${{ steps.get_file.outputs.filename }}
+          TITLE=$(grep '^title:' "$FILENAME" | head -n1 | sed 's/title: *//')
+          SUMMARY=$(grep '^summary:' "$FILENAME" | head -n1 | sed 's/summary: *//')
+          BASENAME=$(basename "$FILENAME" .mdx)
+          echo "title=${TITLE}" >> $GITHUB_OUTPUT
+          echo "summary=${SUMMARY}" >> $GITHUB_OUTPUT
+          echo "basename=${BASENAME}" >> $GITHUB_OUTPUT
+
+      - name: Trigger Notify API
+        run: |
+          curl -X POST $NOTIFY_API_URL \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer $NOTIFY_API_TOKEN" \
+          -d '{
+            "fileName": "${{ steps.read_frontmatter.outputs.basename }}",
+            "summary": "${{ steps.read_frontmatter.outputs.summary }}",
+            "title": "${{ steps.read_frontmatter.outputs.title }}"
+          }'
