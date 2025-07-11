@@ -17,11 +17,11 @@ export default {
       return new Response('Method not allowed', { status: 405 })
     }
 
-    if (pathname === '/api/subscribe') {
+    if (pathname === '/subscribe') {
       return handleSubscribe(request, env)
     }
 
-    if (pathname === '/api/unsubscribe') {
+    if (pathname === '/unsubscribe') {
       return handleUnsubscribe(request, env)
     }
 
@@ -42,19 +42,23 @@ async function handleSubscribe(request: Request, env: Env): Promise<Response> {
     return new Response('Invalid JSON body', { status: 400 })
   }
 
-  const listKey = 'subscribers:list'
-  const listRaw = await env.SUBSCRIPTION_EMAILS.get(listKey)
-  const emails: string[] = listRaw ? JSON.parse(listRaw) : []
+  try {
+    const listKey = 'subscribers:list'
+    const listRaw = await env.SUBSCRIPTION_EMAILS.get(listKey)
+    const emails: string[] = listRaw ? JSON.parse(listRaw) : []
 
-  if (emails.includes(email)) {
-    return new Response(JSON.stringify({ message: "You're already subscribed!" }), {
-      headers: { 'Content-Type': 'application/json' },
-      status: 409,
-    })
+    if (emails.includes(email)) {
+      return new Response(JSON.stringify({ message: "You're already subscribed!" }), {
+        headers: { 'Content-Type': 'application/json' },
+        status: 409,
+      })
+    }
+
+    emails.push(email)
+    await env.SUBSCRIPTION_EMAILS.put(listKey, JSON.stringify(emails))
+  } catch (err) {
+    return new Response('Error with KV', { status: 400 })
   }
-
-  emails.push(email)
-  await env.SUBSCRIPTION_EMAILS.put(listKey, JSON.stringify(emails))
 
   return new Response(JSON.stringify({ message: 'Successfully subscribed!', email }), {
     headers: { 'Content-Type': 'application/json' },
