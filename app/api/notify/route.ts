@@ -45,9 +45,20 @@ export async function POST(req: NextRequest) {
       to: email,
       subject: `New Blog Post: ${title}`,
       html: `
-                <h2>${title}</h2>
-                <p>${summary}</p>
-                <p>Read more: <a href="${blogUrl}">Click here!</a></p>`,
+
+      <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.5; max-width: 600px; margin: auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
+        <h2 style="color: #0070f3; margin-bottom: 10px;">${title}</h2>
+        <p style="font-size: 16px; margin-bottom: 20px;">${summary}</p>
+        <a href="${blogUrl}"
+            style="display: inline-block; padding: 12px 24px; background-color: #0070f3; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+          Read the full article &rarr;
+        </a>
+        <p style="font-size: 12px; color: #999; margin-top: 30px;">You are receiving this email because you subscribed to my blog updates.<br>
+          <a href="https://snghaojun.com/api/unsubscribe?email=${encodeURIComponent(email)}" style="color: #0070f3; text-decoration: underline;">
+            Click here to unsubscribe 😔
+          </a>
+        </p>
+        </div>`,
     })
   )
 
