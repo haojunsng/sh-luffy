@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'sh-luffy/data/blog/*.mdx'
+      - 'data/blog/*.mdx'
 
 jobs:
   notify:
