@@ -8,7 +8,7 @@ interface SubscribeResponse {
   [key: string]: unknown
 }
 
-const SITE_KEY = '6LdAOX8rAAAAAMqnZcK8gTQixrbW2smhm9zrbMvd'
+const PUBLIC_SITE_KEY = '6LdAOX8rAAAAAMqnZcK8gTQixrbW2smhm9zrbMvd'
 
 const SubscriptionForm = () => {
   const [email, setEmail] = useState('')
@@ -62,7 +62,7 @@ const SubscriptionForm = () => {
         </button>
       </form>
       <div className="mt-2 flex w-full justify-center">
-        <ReCAPTCHA sitekey={SITE_KEY} onChange={setCaptchaToken} />
+        <ReCAPTCHA sitekey={PUBLIC_SITE_KEY} onChange={setCaptchaToken} />
       </div>
     </>
   )
