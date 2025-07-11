@@ -37,7 +37,7 @@ const SubscriptionForm = () => {
         placeholder="Subscribe for updates!"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="w-full max-w-md rounded-md border p-2"
+        className="w-full max-w-md rounded-md border bg-white p-2 text-gray-900 placeholder-gray-500 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
       />
       <button type="submit" className="rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800">
         Subscribe
