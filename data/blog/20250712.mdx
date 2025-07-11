@@ -1,0 +1,132 @@
+---
+title: 'You can now Subscribe/Unsubscribe!'
+date: '2025-07-12'
+summary: 'A technical walkthrough of my subscription system.'
+draft: false
+---
+
+## Introduction
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/subscribe.jpg"
+    alt="Subscribe"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '600px' }}
+  />
+</div>
+
+I’ve always been curious about how subscription features work under the hood — specifically how emails are captured, how notifications are sent, and how unsubscribe links function (_because honestly, sometimes I can't seeem to unsubscribe to certain newsletters/sites and it really bugs me_).
+
+With a blog of my own now, I figured it was the perfect opportunity to finally scratch this itch.
+
+I thought a great way to do a walkthrough of what I've done is by framing it around the three key backend API endpoints powering my subscription system.
+
+## Implementing the Subscribe Endpoint
+
+The first step was capturing the email addresses of people who wanted to subscribe.
+
+Here’s how I designed it:
+
+1. **Cloudflare Worker as the Mini API**:
+
+I provisioned yet another Cloudflare Worker to handle the actual storage (_and removal, as you'd see later_) of subscriber emails. This Worker is protected by a secret token and writes email addresses into a Cloudflare KV store.
+
+2. **Next.js Backend API for Token Protection**:
+
+Since I couldn’t expose my secret token to the frontend client-using component (SubscriptionForm), I built a Next.js backend API endpoint. The subscription form on the client calls this endpoint, which then safely passes the request along to the Cloudflare Worker.
+
+3. **Bot Protection with CAPTCHA**:
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/captcha.jpg"
+    alt="CAPTCHA"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '60%', minWidth: '250px', maxWidth: '600px' }}
+  />
+</div>
+
+As a client-using component, my understanding is that I could not pass any secret tokens to make the request to my endpoint. To prevent bots and spam, this meant that I had to wrap the subscription form with Google reCAPTCHA. Any requests to the backend without a valid CAPTCHA token get rejected immediately.
+
+In short:
+
+**Next.js Frontend ➡️ Next.js Backend API ➡️ Cloudflare Worker ➡️ KV Store**.
+
+## Implementing the Notification Endpoint
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/email.jpg"
+    alt="Email"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '600px' }}
+  />
+</div>
+
+Next came the need to notify subscribers whenever a new post is published.
+
+1. **Choosing an Email Provider**:
+
+After a bit of research, I chose Resend as my email provider. The free tier allows 100 emails/day, which is plenty for my needs. I could also send emails using my own domain (mugiwara@snghaojun.com) - once again making use of the $12/year.
+
+2. **Building the Notify Endpoint**:
+
+The Next.js notification endpoint uses the Resend API to blast emails to subscribers. This endpoint is naturally also protected by a secret token.
+
+Accessing KV from my `route` was such a pain initially. According to ChatGPT, there was no way for me to access because I was using Pages instead of Workers. I thought it was strange that I could still bind to the KV in my Pages if that were true.
+
+Did some googling and voila - stumbled upon this [page](https://developers.cloudflare.com/pages/framework-guides/nextjs/ssr/bindings/) - that was _last updated on May 13, 2025_.
+
+`@cloudflare/next-on-pages` really saved the day.
+
+3. **Triggering Notifications via GitHub Actions**:
+
+Here’s where the imposter syndrome struck hard. Whatever I did and whatever I am about to describe may come across a bit of an anti-pattern -
+
+I wrote a GitHub Actions workflow that:
+
+- Detects new .mdx blog posts in my repository.
+
+- Extracts the title and summary from the frontmatter using `grep` and `sed`.
+
+- Throws the title and summary to my notification endpoint (with a secret token of course) with this info to trigger the email blast.
+
+It feels wrong, because I think I should have stored what I needed on the backend through Next.js and accessed them there, but this works for now so I'm rolling with it.
+
+In short:
+
+**GitHub Actions ➡️ Next.js Backend API ➡️ Resend API ➡️ Subscriber’s Inbox**.
+
+## Implementing the Unsubscribe Endpoint
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/unsubscribe.jpg"
+    alt="Unsubscribe"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '600px' }}
+  />
+</div>
+
+One of my friends, Edwin, was already asking for this feature before I even launched the system (ok bro).
+
+1. Set up the Next.js backend endpoint to receive unsubscribe requests.
+
+2. It then calls the same Cloudflare Worker, which handles putting the email into the KV store.
+
+3. Just like subscribing, the unsubscribe process flows similarly and I could take advantage of the existing binding between the worker and the KV.
+
+Now every email that goes out includes an easy “Unsubscribe” link — because we all know how annoying it is when companies make that impossible/difficult.
+
+In short:
+
+**Email Link ➡️ Next.js Backend API ➡️ Cloudflare Worker ➡️ KV Store (Cloudflare KV)**.
+
+## Final Thoughts
+
+This project turned out to be far less trivial than I originally expected. As with all side projects, it came with plenty of late nights, but when the fire is burning, you’ve got to make the most of it, right?
+
+It’s also entirely possible that if a seasoned engineer stumbled upon my website, they might cringe at some of my decisions. Nonetheless, this was pretty fun.
+
+Maybe I’ll add a comment section next.

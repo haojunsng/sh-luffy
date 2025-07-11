@@ -53,7 +53,7 @@ Just send a GET request with the town name, and you'll get back a JSON with all 
 ## API & Security Design
 
 - **X-API-KEY Authentication**: Only requests with the right header get through.
-- **IP Filtering**: Only allowlisted IPs can access the endpoint (_unless you're Edwin, in which case, bonjour and au revoir - he had previously tried to spam my API endpoint when I had prematurely/excitedly deployed it on my subdomain to test out Render_).
+- **IP Filtering**: Only allowlisted IPs can access the endpoint.
 - **Rate Limiting**: No spamming allowed. You get 10 requests a minute, and that's generous.
 - **Clean Logging**: No sensitive info in the logs, just enough to know what's going on.
 
