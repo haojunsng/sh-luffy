@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
   }
 
   const WORKER_SECRET_TOKEN = process.env.WORKER_SECRET_TOKEN
-  const WORKER_API_URL = process.env.WORKER_API_URL
+  const WORKER_API_URL = process.env.WORKER_API_URL + '/unsubscribe'
 
   if (!WORKER_SECRET_TOKEN || !WORKER_API_URL) {
     return new Response('<h1>Configuration error</h1>', {

@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Missing secret token' }, { status: 500 })
   }
 
-  const WORKER_API_URL = process.env.WORKER_API_URL
+  const WORKER_API_URL = process.env.WORKER_API_URL + '/subscribe'
   if (!WORKER_API_URL) {
     return NextResponse.json({ error: 'Missing api url' }, { status: 500 })
   }
