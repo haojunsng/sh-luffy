@@ -13,6 +13,11 @@ const SubscriptionForm = () => {
   const handleSubscribe = async (e) => {
     e.preventDefault()
 
+    const confirmation = window.confirm(`You have typed "${email}", is that correct?`)
+    if (!confirmation) {
+      return
+    }
+
     const res = await fetch('/api/subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
