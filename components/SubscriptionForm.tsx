@@ -49,7 +49,7 @@ const SubscriptionForm = () => {
         <input
           type="email"
           required
-          placeholder="Subscribe for updates!"
+          placeholder="What's your email?"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full max-w-md rounded-md border bg-white p-2 text-gray-900 placeholder-gray-500 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
