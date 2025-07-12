@@ -2,6 +2,7 @@
 
 import { useRouter, usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
+import { Map } from '@/lib/Map'
 
 export default function BackButton() {
   const router = useRouter()
@@ -12,8 +13,19 @@ export default function BackButton() {
     return null
   }
 
+  const getBackRoute = () => {
+    for (const { pattern, fallback } of Map) {
+      if (pattern.test(pathname)) return fallback
+    }
+    return '/'
+  }
+
   const handleBack = () => {
-    router.back()
+    if (window.history.length > 1) {
+      router.back()
+    } else {
+      router.replace(getBackRoute())
+    }
   }
 
   return (
