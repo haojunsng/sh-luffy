@@ -34,7 +34,7 @@ I provisioned yet another Cloudflare Worker to handle the actual storage (_and r
 
 2. **Next.js Backend API for Token Protection**:
 
-Since I couldn’t expose my secret token to the frontend client-using component (SubscriptionForm), I built a Next.js backend API endpoint. The subscription form on the client calls this endpoint, which then safely passes the request along to the Cloudflare Worker.
+Since I couldn’t expose my secret token to the frontend client - using component (SubscriptionForm), I built a Next.js backend API endpoint. The subscription form on the client calls this endpoint, which then safely passes the request along to the Cloudflare Worker.
 
 3. **Bot Protection with CAPTCHA**:
 
@@ -92,7 +92,7 @@ I wrote a GitHub Actions workflow that:
 
 - Throws the title and summary to my notification endpoint (with a secret token of course) with this info to trigger the email blast.
 
-It feels wrong, because I think I should have stored what I needed on the backend through Next.js and accessed them there, but this works for now so I'm rolling with it.
+It feels wrong - I probably should have stored what I needed on the backend through Next.js and accessed them there, but this works for now... so I'm rolling with it.
 
 In short:
 
@@ -125,7 +125,7 @@ In short:
 
 ## Final Thoughts
 
-This project turned out to be far less trivial than I originally expected. As with all side projects, it came with plenty of late nights, but when the fire is burning, you’ve got to make the most of it, right?
+This implementation turned out to be far less trivial than I originally expected. As with all side projects, it came with plenty of late nights, but when the fire is burning, you’ve got to make the most of it, right?
 
 It’s also entirely possible that if a seasoned engineer stumbled upon my website, they might cringe at some of my decisions. Nonetheless, this was pretty fun.
 

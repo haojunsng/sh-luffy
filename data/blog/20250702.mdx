@@ -7,30 +7,27 @@ draft: false
 
 ## **Introduction & Motivation**
 
-I finally got to building my first personal portfolio website with `Next.js` and hosted on `Cloudflare Pages`.
+I finally got to building my first personal portfolio website with `Next.js` hosted on `Cloudflare Pages`.
 
-Edwin endorsed `Next.js` - it was modern, flexible, and with enough documentation.
+Settled on this framework because Edwin endorsed it, and it was modern, flexible, and came with plenty of documentation and support resources out there.
 
-Why `Cloudflare Pages`? Because my site is static (for now), and I wanted something fast, free, and dead simple to deploy. Also, I’m a sucker for a seamless developer experiences, and Cloudflare’s “just push to main” workflow is _chef’s kiss_. (_I also like that they have a preview environment on PR branches, unlike `Render`..._)
-
-If I ever need to add dynamic features, I can always migrate over to Cloudflare Workers or move to a more full-featured host. But for now, Pages is more than enough.
+Also went with `Cloudflare Pages` because it was really straightforward to set up - _just push to `main`, preview environment available, no need to input credit card details, integration with KV in case I need it in future..._
 
 ## **Technical Challenges**
 
-- **CSS & Styling**: I thought Tailwind would save me from CSS hell. Actually, it mostly did. But then came the SVGs, the mobile breakpoints, figuring out how to calculate offsets and how much to scale... thinking back - I'm glad I chose to specialise in DE.
+- **CSS & Styling**: I thought that Tailwind would save me from CSS hell, and while it mostly did, it still wasn't a very smooth-sailing experience when the SVGs struck. Figuring out how to calculate offsets and how much to scale were very foreign concepts to me, and it really was a struggle.
 
-- **Image Optimization**: Next.js’s `<Image />` component is great, but figuring out how to make images look the way they should on all devices took way too much time and energy out of me.
-
-- **Build & Deploy**: This wasn't something foreign - and Cloudflare Pages made deployment really easy too. From deploying to production to setting a custom domain, it was really seamless.
+- **Understanding the hooks**: As the project progresses, understanding how hooks work - especially in the context of client-side navigation, state persistence and conditional rendering was tough. While attempts at understanding each hook proved to be straightforward, the actual use came with many nuances that weren't immediately obvious.
+  I initially misunderstood how often hooks are re-invoked during re-renders, which led to incorrect assumptions about variable scoping. I also faced slight difficulties in something as simple as routing logic where I had to consider edge cases such as direct accesses to my blogpost.
 
 ## **What I Learned**
 
-- **Modern frameworks are powerful, but you still need to read the docs.** Next.js is awesome, but it’s not magic. Understanding the basics (routing, data fetching, static vs. dynamic) is key, and _good old junior dev (AI)_ really helped me structure the unknowns and provided me with concise and easily understandable explanations.
-- **CSS is still the final boss.** Tailwind helps, but even now I still find it a struggle to make it work on my first few tries. I guess this is something that comes with more practice.
-- **Cloudflare Pages is great for static sites.** The developer experience is smooth, and the free tier is generous. (_No credit card details required!_)
+- **Modern frameworks are powerful, but documentation is still king.** Understanding the basics (routing, data fetching, static vs. dynamic) is key, and _good old junior dev (AI)_ really helped me structure the unknowns and provided me with concise and easily understandable explanations.
+- **CSS is still the final boss.** Tailwind helps, but I still find it a struggle to make it work on my first few tries. I guess this is something that comes with more practice.
+- **Launching this website comes with several layers of pressure**. Now that my site is live and publicly accessible, there's an added pressure to anticipate and handle every possible edge case so users won't break the experience. This includes ensuring robust client-side logic, protecting all API endpoints, securely injecting secret tokens only where appropriate, and carefully limiting sensitive data exposure so frontend components can't access them.
 
 ## **Final Thoughts**
 
-Building this site was equal parts fun, frustrating, and rewarding. I learned a ton, shipped something I’m happy with, and now have a home for all my projects and writing.
+Building this site was equal parts fun, frustrating, and rewarding. I learned a lot, shipped something I’m happy with, and now have a one-stop shop for all my projects and writing.
 
-Stay tuned for more posts as I continue to grow my collection of personal projects!
+Stay tuned for more posts as I continue to grow my collection of personal projects.
