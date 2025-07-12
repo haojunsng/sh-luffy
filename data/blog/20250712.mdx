@@ -1,7 +1,7 @@
 ---
 title: 'You can now Subscribe/Unsubscribe!'
 date: '2025-07-12'
-summary: 'A technical walkthrough of my subscription system.'
+summary: 'What started as a curiosity about how newsletters work turned into a fully functional system — with Next.js, Cloudflare Workers, KV, Resend, and a few late nights.'
 draft: false
 ---
 
@@ -9,10 +9,10 @@ draft: false
 
 <div className="my-8 flex justify-center">
   <img
-    src="/static/images/diagrams/subscribe.jpg"
-    alt="Subscribe"
+    src="/static/images/diagrams/subscription_system.png"
+    alt="Subscription System"
     className="h-auto max-w-full rounded-lg shadow-lg"
-    style={{ width: '100%', minWidth: '250px', maxWidth: '600px' }}
+    style={{ width: '100%', minWidth: '250px', maxWidth: '800px' }}
   />
 </div>
 
@@ -22,7 +22,31 @@ With a blog of my own now, I figured it was the perfect opportunity to finally s
 
 I thought a great way to do a walkthrough of what I've done is by framing it around the three key backend API endpoints powering my subscription system.
 
+## Why I used Cloudflare Workers
+
+First glance on the architecture diagram above might have gotten you wondering why I bothered with Cloudflare Workers when I already have a Next.js backend.
+
+1. **Separation of Concerns**. This was the initial thought - I wanted to keep things clean.
+
+- Frontend handles user input, captcha and UI feedback.
+- Backend verifies CAPTCHA, injects secrets and acts as a gateway.
+- Cloudflare Worker will then be responsible solely for interfacing with KV.
+
+2. **Lack of Research**. While I was implementing `/subscribe` and `/unsubscribe`, I did not know I could access KV directly from a Next.js project hosted on Pages (_more on this later_), if I wanted to make use of the binding.
+   Indeed, I could have ditched the binding and make API calls - but this also came with a set of authentication-related considerations.
+
+Looking back, would I have skipped the Workers and let my backend handle everything? _Maybe_. But in the end, I do think something valuable came out of this possibly over-engineered architecture (_for a hobbyist's blog_) - specifically around the boundaries between frontend, backend and edge.
+
 ## Implementing the Subscribe Endpoint
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/subscribe2.jpg"
+    alt="Subscribe2"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '600px' }}
+  />
+</div>
 
 The first step was capturing the email addresses of people who wanted to subscribe.
 
@@ -68,7 +92,7 @@ Next came the need to notify subscribers whenever a new post is published.
 
 1. **Choosing an Email Provider**:
 
-After a bit of research, I chose Resend as my email provider. The free tier allows 100 emails/day, which is plenty for my needs. I could also send emails using my own domain (mugiwara@snghaojun.com) - once again making use of the $12/year.
+After a bit of research, I chose Resend as my email provider. The free tier allows 100 emails/day, which is plenty for my needs. I could also send emails using my own domain (mugiwara@snghaojun.com) - _gotta milk the $12/year fee_.
 
 2. **Building the Notify Endpoint**:
 
@@ -126,7 +150,3 @@ In short:
 ## Final Thoughts
 
 This implementation turned out to be far less trivial than I originally expected. As with all side projects, it came with plenty of late nights, but when the fire is burning, you’ve got to make the most of it, right?
-
-It’s also entirely possible that if a seasoned engineer stumbled upon my website, they might cringe at some of my decisions. Nonetheless, this was pretty fun.
-
-Maybe I’ll add a comment section next.
