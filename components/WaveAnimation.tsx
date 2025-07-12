@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 export default function WaveAnimation() {
   return (
-    <div className="fixed right-0 bottom-0 left-0 z-30 h-60 w-full overflow-hidden">
+    <div className="fixed right-0 bottom-0 left-0 z-50 h-60 w-full overflow-hidden">
       {/* Thousand Sunny Ship - 3D Floating Animation */}
       <motion.div
         className="absolute -bottom-10 left-1/2 z-20 -translate-x-1/2 transform"
