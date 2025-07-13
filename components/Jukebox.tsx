@@ -23,7 +23,7 @@ export default function Jukebox() {
         {isPlaying ? '⏸️ Hit to Pause!' : '▶️ Hit to Play!'}
       </button>
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-      <audio ref={audioRef} src="/static/audio/maplestory.mp3" loop preload="metadata" />
+      <audio ref={audioRef} src="/static/audio/maplestory_compressed.mp3" loop preload="metadata" />
     </div>
   )
 }
