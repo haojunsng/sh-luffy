@@ -15,7 +15,7 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
       {!isHome && <ConditionalHeader />}
       <BackButton />
       <AnimatedMain>{children}</AnimatedMain>
-      {!isHome && <Footer />}
+      <Footer />
       {!isHome && <WaveAnimation />}
     </SectionContainer>
   )

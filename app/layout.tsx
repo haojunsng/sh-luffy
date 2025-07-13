@@ -3,18 +3,11 @@ import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
 
 import { Inter, Pirata_One } from 'next/font/google'
-import ConditionalHeader from '@/components/ConditionalHeader'
-import SectionContainer from '@/components/SectionContainer'
-import Footer from '@/components/Footer'
-import AnimatedMain from '@/components/AnimatedMain'
-import BackButton from '@/components/BackButton'
-import WaveAnimation from '@/components/WaveAnimation'
 import SplashScreen from '@/components/SplashScreen'
 import PageTransitionLoader from '@/components/PageTransitionLoader'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
-import { usePathname } from 'next/navigation'
 import LayoutContent from '@/components/LayoutContent'
 
 const inter = Inter({
