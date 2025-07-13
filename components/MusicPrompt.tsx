@@ -32,9 +32,14 @@ export default function MusicPrompt() {
   return (
     <div className="fixed z-50 flex h-full w-full items-center justify-center">
       <div className="w-[280px] rounded-[10%] bg-white px-8 py-6 text-center shadow-lg">
-        <p>🎵🍁🎵</p>
+        <p>🍁🎵🍁</p>
         <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
-          <i>Care to be transported to nostalgia land?</i>
+          <i>
+            <b>Care to be transported to nostalgia land?</b>
+          </i>
+        </p>
+        <p className="mb-4 text-xs text-gray-600 dark:text-gray-400">
+          <i>Playback controls will be available at the bottom of the page.</i>
         </p>
         <div className="flex gap-2">
           <button
