@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import MapNavLargeScreen from '@/components/MapNavLargeScreen'
 import MapNavMobile from '@/components/MapNavMobile'
+import MusicPrompt from '@/components/MusicPrompt'
 
 function useIsMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = useState(false)
@@ -16,5 +17,11 @@ function useIsMobile(breakpoint = 768) {
 
 export default function Home() {
   const isMobile = useIsMobile()
-  return isMobile ? <MapNavMobile /> : <MapNavLargeScreen />
+
+  return (
+    <>
+      {isMobile ? <MapNavMobile /> : <MapNavLargeScreen />}
+      <MusicPrompt />
+    </>
+  )
 }
