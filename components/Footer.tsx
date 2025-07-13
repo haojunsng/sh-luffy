@@ -1,6 +1,5 @@
 import siteMetadata from '@/data/siteMetadata'
 import SubscriptionForm from '@/components/SubscriptionForm'
-// import Jukebox from '@/components/Jukebox' // Removed from Footer
 import { usePathname } from 'next/navigation'
 
 export default function Footer() {
@@ -8,12 +7,10 @@ export default function Footer() {
   const isHome = pathname === '/'
   const isRelax = pathname === '/relax'
 
-  // Choose text color class for relax page
   const relaxText = isRelax ? 'text-[#f0f4f8]' : ''
 
   return (
     <>
-      {/* Jukebox removed from Footer, now only in root layout */}
       {!isHome && (
         <footer className={`relative z-40 pb-8`}>
           <div className="mt-16 border-t border-gray-200 dark:border-gray-700">

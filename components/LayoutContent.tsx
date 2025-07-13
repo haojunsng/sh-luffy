@@ -13,7 +13,6 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
   const isRelax = pathname === '/relax'
 
   if (isRelax) {
-    // Only render relax page content, no SectionContainer or layout wrappers
     return (
       <>
         <BackButton />
