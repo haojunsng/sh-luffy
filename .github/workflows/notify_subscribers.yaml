@@ -29,7 +29,7 @@ jobs:
       - name: Get Added Blog Filename
         id: get_file
         run: |
-          FILE=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^sh-luffy/data/blog/.*\.mdx$' | head -n 1)
+          FILE=$(git diff --diff-filter=A --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^data/blog/.*\.mdx$' | head -n 1)
           echo "filename=${FILE}" >> $GITHUB_OUTPUT
 
       - name: Read Frontmatter from Blog Post
