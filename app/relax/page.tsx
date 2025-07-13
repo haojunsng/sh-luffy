@@ -69,11 +69,11 @@ export default function RelaxPage() {
 
   return (
     <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden">
-      <div className="fixed inset-0 -z-20 bg-gradient-to-br from-[#e0f7fa] to-[#fce4ec]" />
+      <div className="fixed inset-0 -z-20 bg-gradient-to-br from-[#2c3e50] to-[#4ca1af]" />
 
       <div className="pointer-events-none fixed z-0 flex flex-col items-center justify-center">
-        <h1 className="mb-2 text-4xl font-bold text-gray-800">🌴 Relax Zone 🌴</h1>
-        <p className="mb-6 max-w-md text-lg text-gray-600 italic">{quotes[quoteIndex]}</p>
+        <h1 className="mb-2 text-4xl font-bold text-[#f0f4f8]">🌴 Relax Zone 🌴</h1>
+        <p className="mb-6 max-w-md text-lg text-[#f0f4f8] italic">{quotes[quoteIndex]}</p>
         <div
           ref={galleryRef}
           className="flex gap-6"
