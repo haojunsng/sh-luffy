@@ -1,5 +1,6 @@
 import siteMetadata from '@/data/siteMetadata'
 import SubscriptionForm from '@/components/SubscriptionForm'
+import Jukebox from '@/components/Jukebox'
 
 export default function Footer() {
   return (
@@ -21,9 +22,14 @@ export default function Footer() {
               © {new Date().getFullYear()} {siteMetadata.author}. All rights reserved.
             </p>
           </div>
+          <Jukebox />
           <div className="mt-2 text-center">
             <p className="text-xs text-gray-400 dark:text-gray-600">Made with ⚓ and 🏴‍☠️</p>
           </div>
+          <p className="text-xs text-gray-500">
+            Background music: “MapleStory BGM: All Instrument Medoly Cover (Arrangement)” by
+            NOCOMMENT, licensed under CC BY 4.0
+          </p>
         </div>
       </div>
     </footer>
