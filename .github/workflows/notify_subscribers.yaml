@@ -30,6 +30,10 @@ jobs:
         id: get_file
         run: |
           FILE=$(git diff --diff-filter=A --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^data/blog/.*\.mdx$' | head -n 1)
+          if [ -z "$FILE" ]; then
+            echo "No new blog post found. Exiting!"
+            exit 1
+          fi
           echo "filename=${FILE}" >> $GITHUB_OUTPUT
 
       - name: Read Frontmatter from Blog Post
