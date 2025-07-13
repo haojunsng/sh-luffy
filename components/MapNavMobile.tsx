@@ -33,6 +33,14 @@ const ZONES = [
     href: '/contact',
     label: 'Contact',
   },
+  {
+    name: 'Ship',
+    x: 830,
+    y: 1650,
+    radius: 120,
+    href: '/relax',
+    label: 'Relax Zone',
+  },
 ]
 
 export default function MapNavMobile() {

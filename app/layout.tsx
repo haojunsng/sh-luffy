@@ -9,6 +9,7 @@ import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 import LayoutContent from '@/components/LayoutContent'
+import Jukebox from '@/components/Jukebox'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -105,6 +106,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <PageTransitionLoader />
           <SplashScreen>
             <LayoutContent>{children}</LayoutContent>
+            <div id="jukebox-wrapper">
+              <Jukebox />
+            </div>
+            <div className="mb-40" />
           </SplashScreen>
         </ThemeProviders>
       </body>

@@ -12,15 +12,25 @@ export default function LayoutContent({ children }: { children: React.ReactNode 
   const isHome = pathname === '/'
   const isRelax = pathname === '/relax'
 
+  if (isRelax) {
+    // Only render relax page content, no SectionContainer or layout wrappers
+    return (
+      <>
+        <BackButton />
+        <AnimatedMain>{children}</AnimatedMain>
+      </>
+    )
+  }
+
   return (
     <SectionContainer>
-      {!(isHome || isRelax) && <ConditionalHeader />}
+      {!isHome && <ConditionalHeader />}
       <BackButton />
       <AnimatedMain>{children}</AnimatedMain>
-      <div className={isHome || isRelax ? 'hidden' : ''}>
+      <div className={isHome ? 'hidden' : ''}>
         <Footer />
       </div>
-      {!(isHome || isRelax) && <WaveAnimation />}
+      {!isHome && <WaveAnimation />}
     </SectionContainer>
   )
 }
