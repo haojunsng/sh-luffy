@@ -69,6 +69,16 @@ export default function RelaxPage() {
       jukebox.style.width = '100vw'
       jukebox.style.zIndex = '50'
     }
+    return () => {
+      document.body.style.overflow = ''
+      if (jukebox) {
+        jukebox.style.position = ''
+        jukebox.style.left = ''
+        jukebox.style.bottom = ''
+        jukebox.style.width = ''
+        jukebox.style.zIndex = ''
+      }
+    }
   }, [])
 
   useEffect(() => {
