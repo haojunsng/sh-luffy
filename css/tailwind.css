@@ -193,3 +193,42 @@ h6,
 .header-title {
   font-family: var(--font-inter), 'Inter', sans-serif;
 }
+
+/* WebKit browsers: keep default track */
+input[type='range']::-webkit-slider-runnable-track {
+  height: 6px; /* or your preferred height */
+  background: #ddd; /* default light gray or whatever you want */
+  border-radius: 3px;
+}
+
+/* Firefox: keep default track */
+input[type='range']::-moz-range-track {
+  height: 6px;
+  background: #ddd;
+  border-radius: 3px;
+}
+
+/* Thumb styling for WebKit */
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  background: url('/static/images/orange_mushroom.png') no-repeat center;
+  background-size: contain;
+  cursor: pointer;
+  margin-top: -9px; /* tweak to vertically center thumb relative to track */
+  border: none;
+  box-shadow: none;
+}
+
+/* Thumb styling for Firefox */
+input[type='range']::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  background: url('/static/images/orange_mushroom.png') no-repeat center;
+  background-size: contain;
+  cursor: pointer;
+  border: none;
+  box-shadow: none;
+}

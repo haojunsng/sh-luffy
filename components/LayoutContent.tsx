@@ -10,16 +10,17 @@ import WaveAnimation from '@/components/WaveAnimation'
 export default function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const isHome = pathname === '/'
+  const isRelax = pathname === '/relax'
 
   return (
     <SectionContainer>
-      {!isHome && <ConditionalHeader />}
+      {!(isHome || isRelax) && <ConditionalHeader />}
       <BackButton />
       <AnimatedMain>{children}</AnimatedMain>
-      <div className={isHome ? 'hidden' : ''}>
+      <div className={isHome || isRelax ? 'hidden' : ''}>
         <Footer />
       </div>
-      {!isHome && <WaveAnimation />}
+      {!(isHome || isRelax) && <WaveAnimation />}
     </SectionContainer>
   )
 }
