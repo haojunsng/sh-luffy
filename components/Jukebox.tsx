@@ -19,7 +19,11 @@ export default function Jukebox() {
       <p>
         <i>Ready for a trip down memory lane?</i>
       </p>
-      <button onClick={togglePlay} className="hover:bg-primary-600 mt-2 rounded-full border p-3">
+      <button
+        onClick={togglePlay}
+        data-jukebox-play
+        className="hover:bg-primary-600 mt-2 rounded-full border p-3"
+      >
         {isPlaying ? '⏸️ Hit to Pause!' : '▶️ Hit to Play!'}
       </button>
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
