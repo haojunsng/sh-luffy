@@ -19,6 +19,10 @@ interface ListLayoutProps {
   pagination?: PaginationProps
 }
 
+interface Post {
+  tags: string[]
+}
+
 function Pagination({ totalPages, currentPage }: PaginationProps) {
   const pathname = usePathname()
   const segments = pathname.split('/')
@@ -74,13 +78,13 @@ export default function ListLayout({
   const [selectedTags, setSelectedTags] = useState<string[]>([])
 
   // Get all unique tags from posts
-  const allTags = Array.from(new Set(posts.map((post) => (post as any).tags || []).flat())).sort()
+  const allTags = Array.from(new Set(posts.map((post) => (post as Post).tags || []).flat())).sort()
 
   const filteredBlogPosts = posts.filter((post) => {
     const searchContent = post.title + post.summary
     const matchesSearch = searchContent.toLowerCase().includes(searchValue.toLowerCase())
     const matchesTags =
-      selectedTags.length === 0 || selectedTags.every((tag) => (post as any).tags?.includes(tag))
+      selectedTags.length === 0 || selectedTags.every((tag) => (post as Post).tags?.includes(tag))
     return matchesSearch && matchesTags
   })
 
@@ -191,9 +195,9 @@ export default function ListLayout({
                     <div className="prose max-w-none text-gray-500 dark:text-gray-400">
                       {summary}
                     </div>
-                    {(post as any).tags && (post as any).tags.length > 0 && (
+                    {(post as Post).tags && (post as Post).tags.length > 0 && (
                       <div className="flex flex-wrap gap-2">
-                        {(post as any).tags.map((tag: string) => (
+                        {(post as Post).tags.map((tag: string) => (
                           <span
                             key={tag}
                             className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-200"
