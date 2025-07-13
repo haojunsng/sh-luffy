@@ -1,5 +1,6 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 
 export default function Jukebox() {
   const [isPlaying, setIsPlaying] = useState(false)
@@ -56,8 +57,15 @@ export default function Jukebox() {
     }
   }, [])
 
+  const pathname = usePathname()
+  const isRelax = pathname === '/relax'
+
   return (
-    <div className="z-40 flex h-full flex-col items-center justify-center text-gray-600 dark:text-gray-400">
+    <div
+      className={`z-40 flex h-full flex-col items-center justify-center ${
+        isRelax ? 'text-[#f0f4f8]' : 'text-gray-600 dark:text-gray-400'
+      }`}
+    >
       <p>
         <i>Ready for a trip down memory lane?</i>
       </p>

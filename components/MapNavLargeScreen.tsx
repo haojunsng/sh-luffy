@@ -33,6 +33,14 @@ const ZONES = [
     href: '/contact',
     label: 'Contact',
   },
+  {
+    name: 'Cloud',
+    x: 1370,
+    y: 830,
+    radius: 120,
+    href: '/relax',
+    label: 'Relax Zone',
+  },
 ]
 
 export default function MapNavLargeScreen() {

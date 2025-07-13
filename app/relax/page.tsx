@@ -59,6 +59,27 @@ const dogImages = [
 export default function RelaxPage() {
   const [quoteIndex, setQuoteIndex] = useState(0)
   const galleryRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    const jukebox = document.getElementById('jukebox-wrapper')
+    if (jukebox) {
+      jukebox.style.position = 'fixed'
+      jukebox.style.left = '0'
+      jukebox.style.bottom = '70px'
+      jukebox.style.width = '100vw'
+      jukebox.style.zIndex = '50'
+    }
+    return () => {
+      document.body.style.overflow = ''
+      if (jukebox) {
+        jukebox.style.position = ''
+        jukebox.style.left = ''
+        jukebox.style.bottom = ''
+        jukebox.style.width = ''
+        jukebox.style.zIndex = ''
+      }
+    }
+  }, [])
 
   useEffect(() => {
     const interval = setInterval(() => {
