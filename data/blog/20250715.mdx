@@ -1,0 +1,91 @@
+---
+title: 'Hello D1. Goodbye KV.'
+date: '2025-07-15'
+summary: 'Why I migrated from Cloudflare KV to D1 for email subscriptions.'
+draft: false
+tags: ['BACKEND', 'INFRA']
+---
+
+## Introduction
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/kv.jpg"
+    alt="Subscription System"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '800px' }}
+  />
+</div>
+
+When I first built my email subscription backend, I used [Cloudflare Workers KV](https://developers.cloudflare.com/workers/runtime-apis/kv/) — a simple key-value storage system — to store subscriber email addresses.
+KV is fast, easy to bind, and great for small, **_static_** data access needs. I realise I needed more control over the data (e.g., filtering, marking unsubscribed users, keeping timestamps), and it quickly became clear that KV wasn't the right tool for the job.
+
+[Cloudflare D1](https://developers.cloudflare.com/d1/) — their serverless SQLite-based database — was a much much better fit. It’s built to support relational data with SQL, and it integrates cleanly into the Cloudflare stack. (_Easy bindings again._)
+
+> 📎 You can refer to my [previous post](https://snghaojun.com/blog/20250712) where I shared more on how I used KV for email storage.
+
+---
+
+## What's wrong with KV for this use case?
+
+Again, KV is a fantastic caching solution. It's great for:
+
+- Low-latency key-value lookups.
+- Static values that don’t change often.
+- Small blobs of unstructured data.
+
+But storing email addresses for subscriptions, _especially_ when you want to **remove, update, or filter them dynamically** — it quickly becomes annoying:
+
+- There's **no query language** — just get/put/delete by key (_This also severely limits any potential analytics in the future_).
+- Difficult/Impossible to model data properly - I can't change the structure over time, add new fields.
+
+---
+
+## Migrating to D1
+
+Switching to D1 actually made a lot of sense -
+
+- I can now store each subscriber as a row with structured columns (`email`, `is_unsubscribed`, `timestamps`, etc.).
+- I can query, filter, and update using SQL.
+- It’s easier to **track unsubscribe timestamps** and prevent duplicates.
+- No idea if I'd end up using it but it has **TIMETRAVEL!**
+
+Here’s an updated architecture diagram for reference:
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/updated_sub.png"
+    alt="Updated Subscription System"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '800px' }}
+  />
+</div>
+
+With that, my `/subscribe` and `/unsubscribe` Worker endpoints and `/notify` endpoint simply talk to D1 using SQL.
+
+---
+
+## One Gotcha I Encountered
+
+### The `--remote` flag trap
+
+One tricky issue I hit was with **provisioning the D1 table**.
+
+I used this command:
+
+```bash
+npx wrangler d1 execute subscribers-db --file=./schema.sql
+```
+
+While the command ran successfully, I assumed it had created the table in my actual Cloudflare D1 database — since there were no errors and everything looked fine.
+
+But when I navigated to the Cloudflare Dashboard to check on my D1 database, the table wasn't there.
+
+For a while, I was genuinely confused. I ran queries like SELECT \* FROM subscribers and saw results in the terminal — but nothing appeared on the console UI, and it claimed I had 0 tables.
+I checked the database ID against the one on the console and it was exactly the same.
+
+Turns out I was missing the `--remote` flag... I had unintentionally executed the command against the local preview database, not the remote production database.
+
+This really took me by surprise, and while I do agree it's good design to have the default `d1 execute` run locally, it's not something I'm used to. I mean, the database IDs were even the same!
+
+_P.S. Yes, migrating deployments to an automated workflow like Github Actions is already in my backlog - so I'm choosing to keep it simple for now with authenticated `wrangler` commands run locally._
