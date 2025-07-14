@@ -1,5 +1,5 @@
 export interface Env {
-  SUBSCRIPTION_EMAILS: KVNamespace
+  MY_D1: D1Database
   WORKER_SECRET_TOKEN: string
 }
 
@@ -43,21 +43,34 @@ async function handleSubscribe(request: Request, env: Env): Promise<Response> {
   }
 
   try {
-    const listKey = 'subscribers:list'
-    const listRaw = await env.SUBSCRIPTION_EMAILS.get(listKey)
-    const emails: string[] = listRaw ? JSON.parse(listRaw) : []
+    // Check if they are already subscribed
+    const { results } = await env.MY_D1.prepare(
+      `SELECT is_unsubscribed FROM subscribers WHERE email = ?`
+    )
+      .bind(email)
+      .all()
 
-    if (emails.includes(email)) {
+    if (results.length > 0 && results[0].is_unsubscribed === 0) {
       return new Response(JSON.stringify({ message: "You're already subscribed!" }), {
         headers: { 'Content-Type': 'application/json' },
         status: 409,
       })
     }
 
-    emails.push(email)
-    await env.SUBSCRIPTION_EMAILS.put(listKey, JSON.stringify(emails))
-  } catch (err) {
-    return new Response('Error with KV', { status: 400 })
+    // If it turns out they're not
+    await env.MY_D1.prepare(
+      `INSERT INTO subscribers (email, is_unsubscribed, unsubscribed_at, subscribed_at)
+               VALUES (?, 0, NULL, CURRENT_TIMESTAMP)
+               ON CONFLICT(email) DO UPDATE SET
+                is_unsubscribed = 0,
+                unsubscribed_at = NULL,
+                subscribed_at = CURRENT_TIMESTAMP
+              `
+    )
+      .bind(email)
+      .run()
+  } catch {
+    return new Response('Error with D1 DB', { status: 500 })
   }
 
   return new Response(JSON.stringify({ message: 'Successfully subscribed!', email }), {
@@ -79,12 +92,17 @@ async function handleUnsubscribe(request: Request, env: Env): Promise<Response> 
     return new Response('Invalid JSON body', { status: 400 })
   }
 
-  const listKey = 'subscribers:list'
-  const listRaw = await env.SUBSCRIPTION_EMAILS.get(listKey)
-  const emails: string[] = listRaw ? JSON.parse(listRaw) : []
-
-  const updatedEmails = emails.filter((e) => e !== email)
-  await env.SUBSCRIPTION_EMAILS.put(listKey, JSON.stringify(updatedEmails))
+  try {
+    // Mark unsubscriber as unsubscribed
+    const result = await env.MY_D1.prepare(
+      `UPDATE subscribers SET is_unsubscribed = 1, unsubscribed_at = CURRENT_TIMESTAMP WHERE email = ?
+            `
+    )
+      .bind(email)
+      .run()
+  } catch (err) {
+    return new Response('Error with D1 DB', { status: 500 })
+  }
 
   return new Response(JSON.stringify({ message: 'Successfully unsubscribed!', email }), {
     headers: { 'Content-Type': 'application/json' },
