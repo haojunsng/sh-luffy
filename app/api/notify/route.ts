@@ -11,7 +11,7 @@ interface EmailRequestBody {
 }
 
 interface Env {
-  SUBSCRIPTION_EMAILS: KVNamespace
+  MY_D1: D1Database
 }
 
 export async function POST(req: NextRequest) {
@@ -31,11 +31,20 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Missing Email API KEY' }, { status: 500 })
   }
 
-  const list = await env.SUBSCRIPTION_EMAILS.get('subscribers:list')
-  const emails: string[] = list ? JSON.parse(list) : []
+  // Get all active subscribers
+  let emails: string[]
+  try {
+    const { results } = await env.MY_D1.prepare(
+      `SELECT email FROM subscribers WHERE is_unsubscribed = 0`
+    ).all()
+
+    emails = results.map((row: { email: string }) => row.email)
+  } catch (err) {
+    return NextResponse.json({ error: 'Failed to read from D1' }, { status: 500 })
+  }
 
   if (emails.length === 0) {
-    return NextResponse.json({ message: 'No subscribers...' }, { status: 200 })
+    return NextResponse.json({ message: 'No active subscribers...' }, { status: 200 })
   }
 
   const resend = new Resend(RESEND_API_KEY)
