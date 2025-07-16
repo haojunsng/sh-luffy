@@ -17,7 +17,7 @@ tags: ['BACKEND', 'INFRA']
   />
 </div>
 
-Finally set this one up... a weather API that calls from **multiple sources** (_oops there's only 2 now_) to answer the annoying question:
+Finally set this one up... a weather API that calls from **multiple sources** to answer the annoying question:
 
 <div style={{ textAlign: 'center' }}>
   _"Can I go for a run at Serangoon Stadium without getting drenched?"_
@@ -28,6 +28,8 @@ The API takes in a town name in Singapore and spits out all the metrics you'd ca
 1. Precipitation Probability
 2. Humidity
 3. Temperature
+4. General Outlook
+5. Wind Speed
 
 This is primarily motivated by how irritating it can be to flip between x number of weather apps...
 
@@ -47,7 +49,7 @@ This is primarily motivated by how irritating it can be to flip between x number
 - **httpx** for async HTTP requests
 - **poetry** for package management
 - **Render.com** for hosting (_I'm a huge fan already but more on that in a sec_)
-- **Tomorrow.io** and **Google Maps Weather API** as my data sources (_Yup, just these 2 for now..._)
+- **Tomorrow.io**, **Google Maps Weather API** and **OpenMeteo API** as my data sources
 
 Just send a GET request with the town name, and you'll get back a JSON with all the weather metrics you need to decide if you should proceed or bail on your friends.
 

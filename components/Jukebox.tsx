@@ -8,6 +8,8 @@ export default function Jukebox() {
   const [duration, setDuration] = useState(0)
   const [volume, setVolume] = useState(1) // volume range: 0 to 1
   const audioRef = useRef<HTMLAudioElement>(null)
+  const playlist = ['/static/audio/maplestory_2.mp3', '/static/audio/pokemon.mp3']
+  const [trackIndex, setTrackIndex] = useState(() => Math.floor(Math.random() * playlist.length))
 
   const togglePlay = () => {
     const audio = audioRef.current
@@ -57,6 +59,27 @@ export default function Jukebox() {
     }
   }, [])
 
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    const handleEnded = () => {
+      setTrackIndex((prev) => (prev + 1) % playlist.length)
+    }
+
+    audio.addEventListener('ended', handleEnded)
+    return () => {
+      audio.removeEventListener('ended', handleEnded)
+    }
+  }, [playlist.length])
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (audio && isPlaying) {
+      audio.play()
+    }
+  }, [trackIndex, isPlaying])
+
   const pathname = usePathname()
   const isRelax = pathname === '/relax'
 
@@ -105,7 +128,7 @@ export default function Jukebox() {
 
       {/* Audio element */}
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-      <audio ref={audioRef} src="/static/audio/maplestory.mp3" loop preload="metadata" />
+      <audio ref={audioRef} src={playlist[trackIndex]} preload="metadata" />
     </div>
   )
 }
