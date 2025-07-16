@@ -1,0 +1,79 @@
+---
+title: 'Goodbye KV, Hello D1!'
+date: '2025-07-16'
+summary: 'Why I migrated from Cloudflare KV to D1 for email subscriptions.'
+draft: false
+tags: ['BACKEND', 'INFRA', 'DATA']
+---
+
+## Introduction
+
+### Updated Architecture
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/updated_sub.png"
+    alt="Updated Subscription System"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '800px' }}
+  />
+</div>
+
+When I first built my email subscription backend, I used [Cloudflare Workers KV](https://developers.cloudflare.com/workers/runtime-apis/kv/) — a simple key-value storage system — to store subscriber email addresses.
+KV is fast, easy to bind, and great for small, **_static_** data access needs. I realise I needed more control over the data (_e.g., filtering, marking unsubscribed users, keeping timestamps_), and it quickly became clear that KV wasn't the right tool for the job.
+
+[Cloudflare D1](https://developers.cloudflare.com/d1/) — their serverless SQLite-based database — was a much much better fit. It’s built to support relational data with SQL, and it integrates cleanly into the Cloudflare stack. (_Easy bindings again._)
+
+> 📎 You can refer to my [previous post](https://snghaojun.com/blog/20250712) where I shared more on how I used KV for email storage.
+
+---
+
+## What's wrong with KV for this use case?
+
+Again, KV is a fantastic caching solution. It's great for:
+
+- Low-latency key-value lookups.
+- Static values that don’t change often.
+- Small blobs of unstructured data.
+
+But storing email addresses for subscriptions, _especially_ when you want to **remove, update, or filter them dynamically** — it quickly becomes annoying:
+
+- There's **no query language** — just get / put / delete by key (_This also severely limits any potential analytics in the future_).
+- Difficult / Impossible to model data properly - I can't change the structure over time, or add new fields.
+
+---
+
+## Migrating to D1
+
+Switching to D1 actually made a lot of sense -
+
+- I can now store each subscriber as a row with structured columns (`email`, `is_unsubscribed`, `timestamps`, etc.).
+- I can query, filter, and update using SQL.
+- It’s easier to **track unsubscribe timestamps** and prevent duplicates.
+- No idea if I'd end up using it but it has **TIMETRAVEL!**
+
+---
+
+## One Gotcha I Encountered
+
+### The `--remote` flag trap
+
+When provisioning my D1 table, I hit a confusing issue that tripped me up for a while.
+
+I ran the following command:
+
+```bash
+npx wrangler d1 execute subscribers-db --file=./schema.sql
+```
+
+It ran successfully, no errors, and even returned expected results when I queried the table. So I assumed everything had been applied to the actual Cloudflare D1 database.
+
+But when I checked the Cloudflare dashboard — the table was nowhere to be found. The UI showed 0 tables, even though SELECT \* FROM subscribers returned data in my terminal. The database ID also matched what was shown in the console, so I was stumped.
+
+Eventually, I realized the issue: I forgot to add the `--remote` flag.
+
+Without it, `wrangler d1 execute` runs against the local preview database by default — not the remote one, even if the IDs match. That subtle detail really threw me off.
+
+Looking back, I appreciate the design decision — it’s safe to default to local in most workflows. But it was unexpected for me, especially when everything “looked right.”
+
+> _P.S. Yes, I’m aware this would be more robust with an automated deployment workflow via GitHub Actions. It’s on my backlog — but for now, I’m keeping things simple with local authenticated wrangler commands._
