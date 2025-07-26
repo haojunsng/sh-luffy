@@ -1,0 +1,85 @@
+---
+title: 'A painful encounter with Docker Desktop w/ macOS'
+date: '2025-07-26'
+summary: 'What I learnt about the docker daemon after wrestling with it on macOS.'
+draft: false
+tags: ['DEVOPS']
+---
+
+## Introduction
+
+Like many developers dealing with containerised pipelines and local dev environments, I encountered a use case where I needed to run docker commands from inside a container managed by docker desktop.
+
+In this post, I will try to recap this experience - what led me there, the unexpected hurdles and what I ended up doing instead.
+
+## Background
+
+It has been awhile since I last used Airflow, and I was curious what the latest version looks like - they're always revamping the UI, adding features, fixing little bugs to enhance the UX...
+
+So I thought to quickly get a local Airflow instance up and running quickly, and I went with one of the standard `apache/airflow` docker images. Easy setup with no fuss.
+
+I also have one dockerised ETL workload in one of my repositories, so I thought why not just let Airflow spin up a container and run that ETL job that I had packaged nicely?
+
+What I failed to realise at that time was that since Airflow was itself running in a container, trying to run another container inside it meant that:
+
+- `DockerOperator` inside the Airflow container needs to talk to the docker daemon,
+- but the container cannot reach the docker socket from inside the VM without special setup,
+- and I wasn't running another docker daemon _inside_ the container (DinD), nor did I want to tbh.
+
+To make things clearer, here's what the architecture (linux vs macOS) looks like - _please feel free to correct any errors!_
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/macOS.jpeg"
+    alt="macOS"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '800px' }}
+  />
+</div>
+
+<div className="my-8 flex justify-center">
+  <img
+    src="/static/images/diagrams/linux.jpeg"
+    alt="Linux"
+    className="h-auto max-w-full rounded-lg shadow-lg"
+    style={{ width: '100%', minWidth: '250px', maxWidth: '800px' }}
+  />
+</div>
+
+### Why the discrepancy between the 2 in the first place?
+
+- Docker relies on linux kernel features like `namespaces` and `cgroups` to isolate / manage containers.
+- macOS, unfortunately, does not have these features natively - so docker must run inside a **Linux VM** on macOS, which docker desktop helps to spin up.
+
+For my setup to work, I would either need to mount the host docker socket into the airflow container (so it can talk to the daemon) or go the full Docker-in-Docker route by running a separate daemon inside the container, which adds networking / privilege / security headaches.
+For what I was trying to do - _just running a containerised ETL task from Airflow for local development purposes_ - the additional complexities didn't feel worth it.
+
+---
+
+## What other solutions are there?
+
+1. **Use Colima instead of Docker Desktop**
+
+`Colima` is a lightweight Docker alternative for macOS that also runs containers inside a linux VM (via Lima), but provides better integration with host paths / docker socket access. It's often praised for beign more transparent than docker desktop.
+You also wouldn't require containers to access docker sockets or run their own docker daemons.
+
+2. **Run Airflow natively on Host (goodbye Docker)**
+
+If you really only need one instance for development / testing, you can just do what I did:
+
+- Install airflow directly using `poetry` (to isolate dependencies) on your macOS
+- Run `docker cli commands` directly without worrying about socket mounting
+
+This removes the need for DinD entirely, airflow just calls docker normally.
+
+## Production Environment
+
+In production environment, you wouldn't ordinarily encounter these issues. Most containerised tasks in airflow are scheduled / orchestrated using `KubernetesPodOperator` / `ECSRunTaskOperator`.
+
+Those don't require mounting docker sockets / running docker daemons inside of the containers.
+
+## Conclusion
+
+While trying to run docker from inside a docker container on macOS using docker desktop proved to be a painful journey, it taught me a lot about how docker desktop works under the hood.
+If you're just trying to test a containerised workload locally with airflow, or whatever other tools you're spinning up using docker, chances are that simpler alternatives exist that don't require you jumping through hoops.
+I find it useful to remind myself that when the work feels a bit too "hacky", it might be a sign that I'm fighting the wrong battle. In today's landscape, chances are high that someone has already built a tool / workflow to simplify most of the problems.
