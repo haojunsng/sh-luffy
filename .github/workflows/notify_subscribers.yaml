@@ -52,11 +52,17 @@ jobs:
       - name: Trigger Notify API
         if: steps.get_file.outputs.filename != ''
         run: |
+          jq -n \
+            --arg fileName "${{ steps.read_frontmatter.outputs.basename }}" \
+            --arg summary "${{ steps.read_frontmatter.outputs.summary }}" \
+            --arg title "${{ steps.read_frontmatter.outputs.title }}" \
+            '{
+              fileName: $fileName,
+              summary: $summary,
+              title: $title
+            }' > payload.json
+
           curl -X POST "$NOTIFY_API_URL" \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $NOTIFY_API_TOKEN" \
-            -d "{
-              \"fileName\": \"${{ steps.read_frontmatter.outputs.basename }}\",
-              \"summary\": \"${{ steps.read_frontmatter.outputs.summary }}\",
-              \"title\": \"${{ steps.read_frontmatter.outputs.title }}\"
-            }"
+            --data @payload.json
